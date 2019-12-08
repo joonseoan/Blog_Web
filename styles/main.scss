@@ -1,35 +1,17 @@
 @import './shared/fonts';
-@import './shared/colors';
+@import './_index';
 
-
-// PAGES
-@import './index';
-
-@import './header';
 
 html, body {
+  // !: to prevent bootstrap override the css / scss
+  // Now, Montserrat is inherited or otherwise Helvetica
+  // font-family: 'Montserrat', 'Helvetica' !important;
+
+  // Since change the order of bootstrap and scss,
+  // and scss is overriding bootstrap, 
+  // We do not need to use important!
+  font-family: 'Montserrat', 'Helvetica';
   height:100%;
   width:100%;
-  font-family: 'Montserrat', 'Helvetica';
-}
 
-
-.self-typed {
-  font-size: 31px;
-  font-weight: bold;
-  letter-spacing: 2px;
-  color: white;
-}
-
-.absolute {
-  position: absolute;
-}
-
-.base-page {
-  padding-top: 150px;
-  color: white;
-}
-
-.clickable {
-  cursor: pointer;
 }

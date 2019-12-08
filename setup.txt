@@ -1,0 +1,14 @@
+-- reactstrap : folow reactStrap discover
+
+---- font setup -----
+1. visit: https://fonts.google.com/
+2. Click "+" to download fonts we will use.
+    (We will use "Montserrat")
+3. After download, copy fonts inside the zip file.
+4. mkdir "static" under project directory.
+   mkdir "fonts" under "static"
+   Then paste the copied fonts inside of "fonts" folder.
+
+
+
+

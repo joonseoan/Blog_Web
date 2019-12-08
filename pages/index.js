@@ -1,17 +1,9 @@
 import React from 'react';
-import Typed from 'react-typed';
 
 import BaseLayout from '../components/layouts/BaseLayout';
-
-import { Button, Container, Row, Col } from 'reactstrap';
+import { Button, Container, Row, Col  } from 'reactstrap';
 
 class Index extends React.Component {
-
-  constructor(props) {
-    super(props);
-
-    this.roles = ['Developer', 'Tech Lover', 'Team Player', 'Course Creater', 'React.js', 'Angular'];
-  }
 
   render() {
 
@@ -21,6 +13,7 @@ class Index extends React.Component {
           <div className="background-image">
             <img src="/static/images/background-index.png" />
           </div>
+
           <Container>
             <Row>
               <Col md="6">
@@ -48,19 +41,6 @@ class Index extends React.Component {
                     Get informed, collaborate and discover projects I was working on through the years!
                   </h1>
                 </div>
-                <Typed
-                  loop
-                  typeSpeed={60}
-                  backSpeed={60}
-                  strings={this.roles}
-                  backDelay={1000}
-                  loopCount={0}
-                  showCursor
-                  className="self-typed"
-                  cursorChar="|"
-                />
-
-
                 <div className="hero-welcome-bio">
                   <h1>
                     Let's take a look on my work.
@@ -71,11 +51,9 @@ class Index extends React.Component {
           </Container>
         </div>
       </BaseLayout>
-    )
+    );
   }
 }
-
-
 
 export default Index;
 

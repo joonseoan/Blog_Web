@@ -9,7 +9,7 @@ const BaseLayout = (props) => {
       <Header />
       <main className={`cover ${className}`}>
         <div className="wrapper">
-          {children}
+          { children }
         </div>
       </main>
     </div>
@@ -17,3 +17,4 @@ const BaseLayout = (props) => {
 }
 
 export default BaseLayout;
+
