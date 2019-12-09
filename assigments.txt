@@ -1,5 +1,3 @@
-
-
 --------- CREATE NEW PAGES --------
 1. Create "portfolios", "blogs" and "cv" page.
 2. Make all of the pages class component.

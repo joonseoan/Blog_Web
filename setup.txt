@@ -10,5 +10,71 @@
    Then paste the copied fonts inside of "fonts" folder.
 
 
+------------------ Typed.js ----------------
+   1. Google it: React-typed.js
 
+
+--------------- Auth 0 --------------------- 
+1. Visit: auth0.com (my login: google 74)
+2. Signup
+3. Click "Create App"
+4. Input Name
+5. Select "SinglePageWeb"
+6. Click Create
+7. Click Setting at the top
+8. At the "Allowed Callback URLs": http://localhost:3000/callback
+9. At the "Allowed Web Origins": http://localhost:3000
+10. At the "Allowed Logout URLs" : http://localhost:3000
+11. Save Change
+12. Quick Start
+
+Domain: dev-plzr7dqq.auth0.com
+ClientID: jjVFFtU7i1LRLUQuIJzhYl2TPNR9bz3K
+ClientSecret: DBOi3PeOlfmgdnwcIt1Mc3svFklmh5XZzSabTGsiYTUZdjtpOOkFTBdrvdxPSEi8
+
+13. Select React for Tech
+14. Found Install auth0
+15. Install "npm install --save auth0-js@9.10.2"
+ 
+// Auth0 Callback setup
+16. Click quick setting and Click React
+17. Get the frame code here
+-----Start Code in "services" folder
+
+// Google Client ID setup
+
+(created this credential with joonseo.an180)
+18. Click "connection" - "social" at the left bar
+19. Click Google
+20. Click "How to obtain a ClientID" in ClientID Input
+21. Visit console.developers.google.com
+22. Click "Select Project"
+23. Click "New Project" at the right-top
+24. Enter "project name"
+25. Click "create project"
+26. Consent OAuth 
+27. Create Credentials
+27. "Create OAuth client ID"
+28. Enter Project Name
+29. At Authorized Javascript Origins
+    => https:domainFromAuth0(dev-plzr7dqq.auth0.com)
+    --! must click  "authorised domains list" and enter domain name to "authorized domain" without "https"
+30 At Authorized redirect URIs
+    => https:domainFromAuth0(dev-plzr7dqq.auth0.com)/login/callback
+
+31: OAuth
+   clientID: 608209956825-phmnsanomn9uj5q32tj0c7hqf96807um.apps.googleusercontent.com
+   clientSecret: S_I4wtX9EW8SiGYUZnswny0p
+
+
+32, Gibacj to "CONNECTION" => "Social" in auth0 web
+33. Enter google client id at "ClientID" and "ClientSecret"
+34. Save
+
+
+
+-------- cooke setup -----------------
+
+1. GOOGE "js-cookie"
+2. npm i --save js-cookie
 

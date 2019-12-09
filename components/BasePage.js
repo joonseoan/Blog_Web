@@ -1,22 +1,26 @@
 import { Container } from 'reactstrap';
-import PropTypes from 'prop-types';
 
-const BasePage = (props) => {
-  const { className } = props;
-
-  // const className = props.className || '';
-
-  return (
-    <div className={`base-page ${className}`}>
+const BasePage = props => {
+  
+  // [IMPORTANT: ]
+  // className is also props!!!!!!
+  // const { className } = props;
+  
+  return(
+    <div className={`base-page ${ props.className }`}>
+    {/* <div className={`base-page ${ className || '' }`}> */}
       <Container>
-        {props.children}
+        { props.children }
       </Container>
     </div>
-  )
+  );
 }
 
+// Way to unsderstand props in Legacy React
+// However, it is much readable when we need to define "undefined" or "empty props"
+//  that depends on the parent.
 BasePage.defaultProps = {
-  className: ''
+  className:''
 }
 
 export default BasePage;
