@@ -39,7 +39,6 @@ class Auth0CallBack extends React.Component {
       <BaseLayout>
         <BasePage>
             <h1>Loading.....with Login</h1>
-
         </BasePage>
       </BaseLayout>
     )

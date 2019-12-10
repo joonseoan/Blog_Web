@@ -13,7 +13,6 @@ class Index extends React.Component {
   }
 
   render() {
-
     return (
       <BaseLayout className="cover">
         <div className="main-section">

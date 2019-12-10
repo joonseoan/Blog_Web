@@ -9,6 +9,8 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 //  We can change the order
 import '../styles/main.scss';
 
+import auth0Client from '../services/auth0';
+
 export default class MyApp extends App {
 
   // Component, router, and ctx are from "appContext" 
@@ -27,7 +29,13 @@ export default class MyApp extends App {
   */
   
   static async getInitialProps({ Component, router, ctx }) {
-    let pageProps = {}
+    let pageProps = {};
+    
+    // to work with browser's memory
+    // only when process.browser is available => clientAuth()
+    const isAuthenticated = process.browser ? auth0Client.clientAuth() : auth0Client.serverAuth(ctx.req); 
+    console.log('isAuthenticated in _app.js : ', isAuthenticated);
+    
     if (Component.getInitialProps) {
       pageProps = await Component.getInitialProps(ctx)
     }

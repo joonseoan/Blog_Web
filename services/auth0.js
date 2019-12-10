@@ -13,8 +13,50 @@ class Auth0 {
     }
 
     isAuthenticated = () => {
-        const expiresAt = Cookies.getJson('expiresAt');
+        const expiresAt = Cookies.getJSON('expiresAt');
+
+        // [IMPORTANT]
+        // When we use browser's tool,
+        // it is not working in Next.js
+        //  because it is working without browser.
+
+        // Particularly when we get data from browser's memory space,
+        //  it is not working in server.
+        // For instance following value is false in server terminal
+        //  but the browser shows true.
+        // To fix this issue please go to _app.js!!!!!! in page folder
         return new Date().getTime() < expiresAt;
+    }
+
+    // [ IMPORTANT ]
+    // After define clientAuth in _app.js;
+    clientAuth = () => {
+        return this.isAuthenticated();
+    }
+
+    // req from "ctx" in _app.js
+    serverAuth = req => {
+        // [ IMPORTANT ~]
+        // cookie is also from headers!!
+        // console.log(req.headers.cookie)
+        if(req.headers.cookie) {
+
+            // [ IMPORTANT ] req.header is a saved value?
+            const expiresAtCookie = req.headers.cookie
+                .split(';')
+                // trim for all array elements
+                .find(cookie => cookie.trim()
+                // Greate!!!!!!!!!!!!!!!!!!! [IMPORTANT]
+                // Pure Javascript!!!!
+                .startsWith('expiresAt='));
+            
+            if(!expiresAtCookie) {
+                return undefined;
+            }
+
+            const expiresAt = expiresAtCookie.split('=')[1];
+            return new Date().getTime() < Number(expiresAt);
+        }
     }
 
     handleAuthentication = () => {
@@ -50,10 +92,9 @@ class Auth0 {
     // receive the 
     setSession = authResult => {
 
-        console.log('authResult: ', authResult)
-        debugger
-        const expiresAt = (Number(authResult.expiresIn) * 1000) + new Date().getTime();
-
+        // console.log('authResult: ', authResult)
+        // debugger
+        const expiresAt = JSON.stringify((authResult.expiresIn * 1000) + new Date().getTime());
         // localStorage.setItem('access_token', authResult.accessToken);
         // localStorage.setItem('id_token', authResult.idToken);
         // localStorage.setItem('expiresAt', expiresAt);
@@ -74,10 +115,10 @@ class Auth0 {
         });
     }
 
+    // Only populates the auth0 creen
     login = () => {
         this.auth0.authorize()
     }
-
 }
 
 export default new Auth0();;

@@ -2,7 +2,6 @@ import React, { useState } from 'react';
 import Link from 'next/link';
 import Auth0Client from '../../services/auth0';
 
-
 import {
   Collapse,
   Navbar,
@@ -35,7 +34,10 @@ const Login = props => {
 
 const Logout = props => {
   return(
-    <span className="nav-link port-navbar-link clickable">
+    <span 
+      className="nav-link port-navbar-link clickable"
+      onClick={ Auth0Client.logout }
+    >
       Logout
     </span>
   )
@@ -45,6 +47,8 @@ export default props => {
 
   const [isOpen, setIsOpen] = useState(false);
   const toggle = () => setIsOpen(!isOpen);
+
+  const isAuthenticated = Auth0Client.isAuthenticated(); 
 
   return (
     <div>
@@ -84,12 +88,15 @@ export default props => {
                 title="CV"
               />
             </NavItem>
-            <NavItem className="port-navbar-item">
-              <Login />
-            </NavItem>
-            <NavItem className="port-navbar-item">
-              <Logout />
-            </NavItem>
+            {
+              !isAuthenticated ?  
+              (<NavItem className="port-navbar-item">
+                <Login />
+              </NavItem>) :
+              (<NavItem className="port-navbar-item">
+                <Logout />
+              </NavItem>)
+            }
           </Nav>
         </Collapse>
       </Navbar>
