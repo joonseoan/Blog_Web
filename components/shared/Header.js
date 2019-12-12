@@ -48,8 +48,6 @@ export default props => {
   const [isOpen, setIsOpen] = useState(false);
   const toggle = () => setIsOpen(!isOpen);
 
-  const isAuthenticated = Auth0Client.isAuthenticated(); 
-
   return (
     <div>
       {/* dark: please find doc */}
@@ -89,7 +87,7 @@ export default props => {
               />
             </NavItem>
             {
-              !isAuthenticated ?  
+              !props.isAuthenticated ?  
               (<NavItem className="port-navbar-item">
                 <Login />
               </NavItem>) :

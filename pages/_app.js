@@ -36,23 +36,26 @@ export default class MyApp extends App {
     const isAuthenticated = process.browser ? auth0Client.clientAuth() : auth0Client.serverAuth(ctx.req); 
     console.log('isAuthenticated in _app.js : ', isAuthenticated);
     
+    const auth = { isAuthenticated };
+    
     if (Component.getInitialProps) {
       pageProps = await Component.getInitialProps(ctx)
     }
 
-    return { pageProps }
+    return { pageProps, auth };
   }
 
   render () {
 
     // this.props
-    const { Component, pageProps } = this.props
+    const { Component, pageProps, auth } = this.props
     // enclosing current page's props
-    console.log(pageProps)
+    console.log('pageProps: ', pageProps)
+    // debugger
 
     return (
       <Container>
-        <Component {...pageProps} />
+        <Component {...pageProps } auth={ auth } />
       </Container>
     )
   }
