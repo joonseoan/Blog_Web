@@ -29,20 +29,34 @@ export default class MyApp extends App {
   */
   
   static async getInitialProps({ Component, router, ctx }) {
+    
     let pageProps = {};
     
     // to work with browser's memory
     // only when process.browser is available => clientAuth()
-    const isAuthenticated = process.browser ? auth0Client.clientAuth() : auth0Client.serverAuth(ctx.req); 
-    console.log('isAuthenticated in _app.js : ', isAuthenticated);
+    const user = process.browser ? auth0Client.clientAuth() : auth0Client.serverAuth(ctx.req); 
     
-    const auth = { isAuthenticated };
+    
+    console.log('user in _app.js : ', user);
+
+    // !!user means that 
+    // let isAuthenticated = false;
+    
+    // if(user) {
+    //   isAuthenticated = true;
+    // }
+
+    // default: when user is not avialble : false
+    // then back to true when the user is avaialble
+    // https://medium.com/better-programming/javascript-bang-bang-i-shot-you-down-use-of-double-bangs-in-javascript-7c9d94446054
+    const auth = { user, isAuthenticated: !!user };
     
     if (Component.getInitialProps) {
       pageProps = await Component.getInitialProps(ctx)
     }
 
     return { pageProps, auth };
+
   }
 
   render () {
@@ -55,8 +69,9 @@ export default class MyApp extends App {
 
     return (
       <Container>
-        <Component {...pageProps } auth={ auth } />
+        <Component { ...pageProps } auth={ auth } />
       </Container>
-    )
+    );
+
   }
 }

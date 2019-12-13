@@ -13,14 +13,17 @@ class Index extends React.Component {
   }
 
   render() {
-    // console.log(this.props)
+
+    console.log('this.props: ===>', this.props.auth);
+    
+    const userName = this.props.auth.user ? this.props.auth.user.name : '';
+    
     return (
       <BaseLayout className="cover" { ...this.props.auth } >
         <div className="main-section">
           <div className="background-image">
             <img src="/static/images/background-index.png" />
           </div>
-
           <Container>
             <Row>
               <Col md="6">
@@ -44,7 +47,7 @@ class Index extends React.Component {
               <Col md="6" className="hero-welcome-wrapper">
                 <div className="hero-welcome-text">
                   <h1>
-                    Welcome to the portfolio website of Joon An.
+                    Welcome to the portfolio website of <b>{ userName || 'Anonymous user' }</b>.
                     Get informed, collaborate and discover projects I was working on through the years!
                   </h1>
                 </div>

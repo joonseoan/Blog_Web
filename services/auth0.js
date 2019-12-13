@@ -1,5 +1,7 @@
 import auth0 from 'auth0-js';
 import Cookies from 'js-cookie';
+import jwt from 'jsonwebtoken';
+import axios from 'axios';
 
 class Auth0 {        
     constructor() {
@@ -12,50 +14,129 @@ class Auth0 {
         });
     }
 
-    isAuthenticated = () => {
-        const expiresAt = Cookies.getJSON('expiresAt');
+    // isAuthenticated = () => {
+    //     const expiresAt = Cookies.getJSON('expiresAt');
 
-        // [IMPORTANT]
-        // When we use browser's tool,
-        // it is not working in Next.js
-        //  because it is working without browser.
+    //     // [IMPORTANT]
+    //     // When we use browser's tool,
+    //     // it is not working in Next.js
+    //     //  because it is working without browser.
 
-        // Particularly when we get data from browser's memory space,
-        //  it is not working in server.
-        // For instance following value is false in server terminal
-        //  but the browser shows true.
-        // To fix this issue please go to _app.js!!!!!! in page folder
-        return new Date().getTime() < expiresAt;
+    //     // Particularly when we get data from browser's memory space,
+    //     //  it is not working in server.
+    //     // For instance following value is false in server terminal
+    //     //  but the browser shows true.
+    //     // To fix this issue please go to _app.js!!!!!! in page folder
+    //     return new Date().getTime() < expiresAt;
+    // }
+
+    // JWKS: JW key set "to verify token!!!"
+    getJWKS = async () => {
+        const res = await axios.get('https://dev-plzr7dqq.auth0.com/.well-known/jwks.json');
+        const jwks = res.data;
+
+        return jwks;
+    }
+
+    verifyToken = async token => {
+        if(!token) {
+            return undefined;
+        }
+
+
+        // [ Decode from Token/(Decription)Key in Cookie]
+        // "complete": return an object with the decoded payload and header.
+        // In this scenario, we need to get "kid" in the header, now.
+        // Then we can can implement getJWKS!!!
+        const decodeToken = jwt.decode(token, { complete: true });
+        // const decodeToken = jwt.decode(token);
+
+
+        // [ Key from callback url reached by the auth server ]
+        const jwks = await this.getJWKS();
+        /* 
+            jwks= { keys: Array(1) }
+        */
+        const [ key ] = jwks.keys;
+
+        // token certification
+        // Mapping the format same as key format from cooke
+        let [ cert ] = key.x5c;
+        cert = cert.match(/.{1,64}/g)
+            .join('\n');
+        cert = `-----BEGIN CERTIFICATE-----\n${cert}-----END CERTIFICATE-----\n`
+
+        // [ Verification ]
+        // Can bet header from decodeToken's complete option
+        if(key.kid !== decodeToken.header.kid) {
+            return undefined;
+        }
+
+        const verifiedToken = jwt.verify(token, cert);
+        const expiresAt = decodeToken.exp * 1000;
+        
+        // ===> user info
+        console.log('verifiedToken: ', verifiedToken)
+        
+        return verifiedToken && 
+            decodeToken && 
+            new Date().getTime() < expiresAt ? 
+            decodeToken :
+            undefined;
     }
 
     // [ IMPORTANT ]
     // After define clientAuth in _app.js;
     clientAuth = () => {
-        return this.isAuthenticated();
+
+        const token = Cookies.getJSON('jwt');
+        const verifiedToken = this.verifyToken(token);
+        return verifiedToken;
+
+        // return this.isAuthenticated();
     }
 
     // req from "ctx" in _app.js
     serverAuth = req => {
+        
         // [ IMPORTANT ~]
         // cookie is also from headers!!
-        // console.log(req.headers.cookie)
-        if(req.headers.cookie) {
+        // console.log('cookie: ', req.headers.cookie);
 
+        if(req.headers.cookie) {
+            
             // [ IMPORTANT ] req.header is a saved value?
-            const expiresAtCookie = req.headers.cookie
+            const tokenCookie = req.headers.cookie
                 .split(';')
                 // trim for all array elements
                 .find(cookie => cookie.trim()
                 // Greate!!!!!!!!!!!!!!!!!!! [IMPORTANT]
                 // Pure Javascript!!!!
-                .startsWith('expiresAt='));
+                .startsWith('jwt='));
+
+            // console.log('tokenCookie: ', tokenCookie)
+
+            // [ IMPORTANT ] req.header is a saved value?
+            // const expiresAtCookie = req.headers.cookie
+            //     .split(';')
+            //     // trim for all array elements
+            //     .find(cookie => cookie.trim()
+            //     // Greate!!!!!!!!!!!!!!!!!!! [IMPORTANT]
+            //     // Pure Javascript!!!!
+            //     .startsWith('expiresAt='));
             
-            if(!expiresAtCookie) {
+            if(!tokenCookie) {
                 return undefined;
             }
 
-            const expiresAt = expiresAtCookie.split('=')[1];
-            return new Date().getTime() < Number(expiresAt);
+            const token = tokenCookie.split('=')[1];
+            const verifiedToken = this.verifyToken(token);
+
+            if(!verifiedToken) {
+                return undefined;
+            }
+
+            return verifiedToken;
         }
     }
 
@@ -64,7 +145,6 @@ class Auth0 {
         return new Promise((resolve, reject) => {
             this.auth0.parseHash((err, authResult) => {
                 // console.log('authResult: ========> ', authResult)
-
                 /* 
                     authResult: {
                         authToken,
@@ -78,7 +158,7 @@ class Auth0 {
                     
                     When the page moves to the callback page,
                     it receives auth Token, idToke, and etc from Google.
-                 */
+                */
                 if(authResult && authResult.accessToken && authResult.idToken) {
                     this.setSession(authResult);
                     resolve('Auth Callback Success');
@@ -92,8 +172,6 @@ class Auth0 {
     // receive the 
     setSession = authResult => {
 
-        // console.log('authResult: ', authResult)
-        // debugger
         const expiresAt = JSON.stringify((authResult.expiresIn * 1000) + new Date().getTime());
         // localStorage.setItem('access_token', authResult.accessToken);
         // localStorage.setItem('id_token', authResult.idToken);
@@ -121,4 +199,4 @@ class Auth0 {
     }
 }
 
-export default new Auth0();;
+export default new Auth0();

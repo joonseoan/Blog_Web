@@ -3,16 +3,16 @@ import Header from '../shared/Header';
 
 const BaseLayout = (props) => {
 
-  const { className, children, isAuthenticated } = props;
-
-  console.log('isAuthenticated for header: ',  isAuthenticated)
+  const { className, children, isAuthenticated, user } = props;
+  console.log('props in header: ',  props)
+  
   return (
     <div className="layout-container">
-      <Header isAuthenticated={ isAuthenticated }/>
+      <Header isAuthenticated={ isAuthenticated } user={ user }/>
       <main className={`cover ${className}`}>
         <div className="wrapper">
           {/* BasePage */}
-          { children  }
+          { children }
         </div>
       </main>
     </div>

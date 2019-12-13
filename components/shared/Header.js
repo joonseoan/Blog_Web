@@ -95,6 +95,17 @@ export default props => {
                 <Logout />
               </NavItem>)
             }
+            {
+              // props.user && (
+              //    <NavItem className="port-navbar-item">
+              //       <span 
+              //         className="nav-link port-navbar-link"
+              //       >
+              //         { props.user.name }
+              //       </span>       
+              //    </NavItem>
+              // )
+            }
           </Nav>
         </Collapse>
       </Navbar>
