@@ -1,6 +1,7 @@
 import React from 'react';
 import BaseLayout from '../components/layouts/BaseLayout';
 import BasePage from '../components/BasePage';
+import withAuth from '../components/hoc/withAuth';
 
 class Blogs extends React.Component {
 
@@ -16,3 +17,4 @@ class Blogs extends React.Component {
 }
 
 export default Blogs;
+// export default withAuth(Blogs);

@@ -45,7 +45,7 @@ const Logout = props => {
 
 export default props => {
 
-  const [isOpen, setIsOpen] = useState(false);
+  const [ isOpen, setIsOpen ] = useState(false);
   const toggle = () => setIsOpen(!isOpen);
 
   return (
@@ -94,17 +94,6 @@ export default props => {
               (<NavItem className="port-navbar-item">
                 <Logout />
               </NavItem>)
-            }
-            {
-              // props.user && (
-              //    <NavItem className="port-navbar-item">
-              //       <span 
-              //         className="nav-link port-navbar-link"
-              //       >
-              //         { props.user.name }
-              //       </span>       
-              //    </NavItem>
-              // )
             }
           </Nav>
         </Collapse>

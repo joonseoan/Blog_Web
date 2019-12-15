@@ -3,6 +3,7 @@ import BaseLayout from '../components/layouts/BaseLayout';
 import BasePage from '../components/BasePage';
 import { withRouter } from 'next/router'
 import axios from 'axios';
+import withAuth from '../components/hoc/withAuth';
 
 class Portfolio extends React.Component {
 
@@ -36,4 +37,5 @@ class Portfolio extends React.Component {
   }
 }
 
+// export default withAuth(Portfolio);
 export default withRouter(Portfolio);

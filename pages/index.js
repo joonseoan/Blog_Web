@@ -13,8 +13,6 @@ class Index extends React.Component {
   }
 
   render() {
-
-    console.log('this.props: ===>', this.props.auth);
     
     const userName = this.props.auth.user ? this.props.auth.user.name : '';
     

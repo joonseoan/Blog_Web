@@ -30,33 +30,45 @@ export default class MyApp extends App {
   
   static async getInitialProps({ Component, router, ctx }) {
     
-    let pageProps = {};
-    
-    // to work with browser's memory
-    // only when process.browser is available => clientAuth()
-    const user = process.browser ? auth0Client.clientAuth() : auth0Client.serverAuth(ctx.req); 
-    
-    
-    console.log('user in _app.js : ', user);
+    try {
 
-    // !!user means that 
-    // let isAuthenticated = false;
+      let pageProps = {};
     
-    // if(user) {
-    //   isAuthenticated = true;
-    // }
+      // to work with browser's memory
+      // only when process.browser is available => clientAuth()
 
-    // default: when user is not avialble : false
-    // then back to true when the user is avaialble
-    // https://medium.com/better-programming/javascript-bang-bang-i-shot-you-down-use-of-double-bangs-in-javascript-7c9d94446054
-    const auth = { user, isAuthenticated: !!user };
+      let user;
     
-    if (Component.getInitialProps) {
-      pageProps = await Component.getInitialProps(ctx)
+      if(process.browser) {
+        console.log('client -------------------------cccccccccc')
+        user = await auth0Client.clientAuth();
+      } else {
+        console.log('server -------------------------ssssssssss')
+        user = await auth0Client.serverAuth(ctx.req)
+      }
+        
+      // !!user means that 
+      // let isAuthenticated = false;
+      
+      // if(!user) {
+      //   throw new Error('Unable to the current user.')
+      // }
+
+      // default: when user is not avialble : false
+      // then back to true when the user is avaialble
+      // https://medium.com/better-programming/javascript-bang-bang-i-shot-you-down-use-of-double-bangs-in-javascript-7c9d94446054
+      const auth = { user, isAuthenticated: !!user };
+      console.log('auth: ========>', auth)
+      
+      if (Component.getInitialProps) {
+        pageProps = await Component.getInitialProps(ctx)
+      }
+
+      return { pageProps, auth };
+
+    } catch(e) {
+      throw new Error(e);
     }
-
-    return { pageProps, auth };
-
   }
 
   render () {
@@ -64,8 +76,6 @@ export default class MyApp extends App {
     // this.props
     const { Component, pageProps, auth } = this.props
     // enclosing current page's props
-    console.log('pageProps: ', pageProps)
-    // debugger
 
     return (
       <Container>

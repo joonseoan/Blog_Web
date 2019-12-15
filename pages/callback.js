@@ -1,7 +1,6 @@
 import React from 'react';
 
 import Auth0Client from '../services/auth0';
-
 // withRouter for hoc
 // Wrapping component with router in prop system.
 import { withRouter } from 'next/router';

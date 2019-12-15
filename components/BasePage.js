@@ -5,6 +5,7 @@ const BasePage = props => {
   // [IMPORTANT: ]
   // className is also props!!!!!!
   // const { className } = props;
+  console.log('props in BasePage: ', props);
   
   return(
     <div className={`base-page ${ props.className }`}>
