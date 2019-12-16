@@ -78,3 +78,43 @@ ClientSecret: DBOi3PeOlfmgdnwcIt1Mc3svFklmh5XZzSabTGsiYTUZdjtpOOkFTBdrvdxPSEi8
 1. GOOGE "js-cookie"
 2. npm i --save js-cookie
 
+
+--------- express-jwt -------
+In order to work with Auth0,
+just install express-jwt instead of jsonwebtoken in the server
+npm i --save express-jwt
+npm i --save jwks-rsa 
+
+
+-------- Auth0 User Rule SETUP --------
+1.  Google  "rules auth0"
+2. visit : https://auth0.com/docs/rules
+3. At the page, find "What can I use Rules for"
+4. Find "Add roles to a user"
+5. Visit Auth0 and login 
+6. In the left side menu, click "rules"
+7. Click "create rule"
+8. Click "empty rule"
+9. Type 
+
+function (user, context, callback) {
+  const namespace = 'http://localhost:3000';
+  if(user.email === 'joonseo74@gmail.com') {
+    context.idToken[namespace + '/role'] = 'app owner';
+  } else {
+    context.idToken[namespace + '/role'] = 'visitor';
+  }
+  
+  callback(null, user, context);
+  
+}
+
+10. Save it
+11. Click again "rules" in the sidebar menu.
+12. Go to Browser with app and get logout/login and then get token in the cookie
+13. Copy JWT AND Go to "jwt io" and then try to parse it.
+14. Try to find role info when jwt is parsed. If it exists. great!!!!!!
+For instance
+
+http://localhost:3000/role": "app owner",
+

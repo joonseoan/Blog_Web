@@ -3,6 +3,8 @@ import Cookies from 'js-cookie';
 import jwt from 'jsonwebtoken';
 import axios from 'axios';
 
+import { getCookieFromReq } from '../helpers/utils'
+
 class Auth0 {        
     constructor() {
         this.auth0 = new auth0.WebAuth({
@@ -148,31 +150,33 @@ class Auth0 {
             // cookie is also from headers!!
             // console.log('cookie: ', req.headers.cookie);
 
-            if(req.headers.cookie) { 
+            if(req.headers.cookie) {
 
-                // [ IMPORTANT ] req.header is a saved value?
-                const tokenCookie = req.headers.cookie
-                    .split(';')
-                    // trim for all array elements
-                    // Then if startsWith('jwt=') is true;
-                    //  get that value
-                    .find(cookie => cookie.trim().startsWith('jwt='))
-                    
+                const token = getCookieFromReq(req, 'jwt') 
 
-                // [ IMPORTANT ] req.header is a saved value?
-                // const expiresAtCookie = req.headers.cookie
+                // // [ IMPORTANT ] req.header is a saved value?
+                // const tokenCookie = req.headers.cookie
                 //     .split(';')
                 //     // trim for all array elements
-                //     .find(cookie => cookie.trim()
-                //     // Greate!!!!!!!!!!!!!!!!!!! [IMPORTANT]
-                //     // Pure Javascript!!!!
-                //     .startsWith('expiresAt='));
-                
-                if(!tokenCookie) {
-                    return undefined;
-                }
+                //     // Then if startsWith('jwt=') is true;
+                //     //  get that value
+                //     .find(cookie => cookie.trim().startsWith('jwt='))
+                    
 
-                const token = tokenCookie.split('=')[1];                
+                // // [ IMPORTANT ] req.header is a saved value?
+                // // const expiresAtCookie = req.headers.cookie
+                // //     .split(';')
+                // //     // trim for all array elements
+                // //     .find(cookie => cookie.trim()
+                // //     // Greate!!!!!!!!!!!!!!!!!!! [IMPORTANT]
+                // //     // Pure Javascript!!!!
+                // //     .startsWith('expiresAt='));
+                
+                // if(!tokenCookie) {
+                //     return undefined;
+                // }
+
+                // const token = tokenCookie.split('=')[1]; 
                 const verifiedToken = await this.verifyToken(token);
          
                 if(!verifiedToken) {

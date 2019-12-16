@@ -30,7 +30,7 @@ export default class MyApp extends App {
   
   static async getInitialProps({ Component, router, ctx }) {
     
-    try {
+    // try {
 
       let pageProps = {};
     
@@ -58,7 +58,7 @@ export default class MyApp extends App {
       // then back to true when the user is avaialble
       // https://medium.com/better-programming/javascript-bang-bang-i-shot-you-down-use-of-double-bangs-in-javascript-7c9d94446054
       const auth = { user, isAuthenticated: !!user };
-      console.log('auth: ========>', auth)
+      // console.log('auth: ========>', auth)
       
       if (Component.getInitialProps) {
         pageProps = await Component.getInitialProps(ctx)
@@ -66,9 +66,10 @@ export default class MyApp extends App {
 
       return { pageProps, auth };
 
-    } catch(e) {
-      throw new Error(e);
-    }
+    // } catch(e) {
+      // return undefined;
+      // throw new Error(e);
+    // }
   }
 
   render () {

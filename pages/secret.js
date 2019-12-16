@@ -4,6 +4,8 @@ import { withRouter } from 'next/router';
 import BaseLayout from '../components/layouts/BaseLayout';
 import BasePage from '../components/BasePage';
 import withAuth from '../components/hoc/withAuth';
+import { getSecretData } from '../actions';
+
 
 // Secret Page must be placed in Page (in router)!!!
 
@@ -14,9 +16,22 @@ class Secret extends React.Component {
     //  in the higher order component which is withAuth here.
 
     // It can receive the thprops only from the higher order component.!!
-    static getInitialProps() {
-        const superSecretValue = 'Super Secret Value';
-        return { superSecretValue };
+    static async getInitialProps (ctx) {
+        try {
+            const superSecretValue = 'Super Secret Value';
+            
+            let secretData;
+            if(process.browser) {
+                secretData = await getSecretData();
+            } else {
+                secretData = await getSecretData(ctx.req);
+            }            
+            
+            return { superSecretValue, secretData };
+
+        } catch (e) {
+            throw new Error(e);
+        }
     }
 
     // [ Move to the high order component ]  
@@ -42,6 +57,11 @@ class Secret extends React.Component {
     //           );
     //       }
     //   }
+
+    // componentDidMount = async () => {
+    //     const secretData = await getSecretData();
+    //     console.log('secretData: ====>', secretData)
+    // }
 
     render() {
         // Once again props in child component,

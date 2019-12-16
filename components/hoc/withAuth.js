@@ -19,10 +19,10 @@ export default ChildComponent => {
         // The high order component must have getInitialProps function
         // if the child component is required to specify getInitialProps!!!!!
 
-        static async getInitialProps(arg) {
+        static async getInitialProps(ctx) {
             // Define' child component's getInitialProps
             const pageProps = ChildComponent.getInitialProps &&
-                await ChildComponent.getInitialProps(arg);
+                await ChildComponent.getInitialProps(ctx);
             return { pageProps };
         }
 
@@ -35,7 +35,7 @@ export default ChildComponent => {
         renderProtectedPage = () => {
             
             const { isAuthenticated } = this.props.auth;
-            console.log('this.props.auth in renderProtectedPage: ', this.props)
+            // console.log('this.props.auth in renderProtectedPage: ', this.props)
             if(isAuthenticated) {
                 return  <ChildComponent { ...this.props } />
             } else {
@@ -53,7 +53,7 @@ export default ChildComponent => {
             // [ IMPORTANT ]
             // The default props always have the value that the child component have
             // if it has the props from "_app.js"!!!
-            console.log('props in high order component', this.props);
+            // console.log('props in high order component', this.props);
 
             // Also, over here it can send the separate props value to the child component
             // const someVariable1 = '1';
