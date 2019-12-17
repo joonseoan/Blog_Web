@@ -17,7 +17,7 @@ class Secret extends React.Component {
 
     // It can receive the thprops only from the higher order component.!!
     static async getInitialProps (ctx) {
-        try {
+        // try {
             const superSecretValue = 'Super Secret Value';
             
             let secretData;
@@ -29,9 +29,9 @@ class Secret extends React.Component {
             
             return { superSecretValue, secretData };
 
-        } catch (e) {
-            throw new Error(e);
-        }
+        // } catch (e) {
+            // throw new Error(e);
+        // }
     }
 
     // [ Move to the high order component ]  
@@ -83,4 +83,4 @@ class Secret extends React.Component {
     }
 }
 
-export default withAuth(Secret);
+export default withAuth()(Secret);

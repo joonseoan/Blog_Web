@@ -14,18 +14,19 @@ const setAuthHeader = req => {
  return token;
 }
 
-
 export const getSecretData = async req => {
     
-    const url = req ? 'http://localhost:3000' : '';
+    const url = req ? 'http://localhost:3000/api/v1/secret' : '/api/v1/secret';
     const token = setAuthHeader(req || null); 
     
     try {
-        const response = await axios.get(`${url}/api/v1/secret`, {
+        const response = await axios.get(url, {
             headers: { 
                 'authorization': token ? `Bearer ${token}` : ''
             }
         });
+
+        console.log('response.data: ===> ', response.data)
         return response.data;
     } catch(e) {
         throw new Error(e);

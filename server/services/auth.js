@@ -31,7 +31,7 @@ exports.checkJWT = jwt({
 
         // cacheMaxEntries: 5, // Default Value
         // cacheMaxAge: ms('10h'), // Default Value
-        jwksUri : 'https://dev-plzr7dqq.auth0.com/.well-known/jwks.json'
+        jwksUri: 'https://dev-plzr7dqq.auth0.com/.well-known/jwks.json'
     }),
     // [ ClientID in Auth0 ]
     audience: 'jjVFFtU7i1LRLUQuIJzhYl2TPNR9bz3K',
