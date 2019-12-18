@@ -1,6 +1,8 @@
 const jwt = require('express-jwt');
 const jwksRsa = require('jwks-rsa');
 
+const namespace = 'http://localhost:3000/';
+
 /* 
 
     1) Receives implicitly jwt in "req.headers" of the background
@@ -11,11 +13,12 @@ const jwksRsa = require('jwks-rsa');
         and then runs the jwt validation.
         with jwks which is a secret key!
         - JWT is not valid => app.use() error controller.
-
+ 
     // as long as we use auth0,
     //  we receive secret key from auth0
     jwksUri : 'https://dev-plzr7dqq.auth0.com/.well-known/jwks.json'
 
+    3) req.user is created
 */
 
 // [ IMPORTANT ]!!!!!!!!
@@ -64,3 +67,20 @@ exports.checkJWT = jwt({
 //         });
 //     }
 // }
+
+
+exports.checkRole = role => (req, res, next) => {
+    // Thanks to the middleware above,
+    //  we can get req.user automatically.
+    //  [ IMPORTANT ] It is why jwt-expresss is useful! 
+    const user = req.user;
+    if(user && user[`${namespace}role`] === role) {
+        next();
+    } else {
+        return res.status(401).send({
+            title: 'You are not authorized to access to this page',
+            detail: 'I hate you!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!1'
+        });
+    }
+
+}

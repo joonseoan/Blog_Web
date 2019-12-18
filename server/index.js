@@ -2,7 +2,7 @@ const express = require('express');
 const next = require('next');
 // next's routes
 const routes = require('../routes');
-const { checkJWT } = require('./services/auth');
+const { checkJWT, checkRole } = require('./services/auth');
 const dev = process.env.NODE_ENV !== 'production';
 const app = next({ dev });
 // directing the client's request to each each express's router 
@@ -27,6 +27,10 @@ app.prepare()
 
   // middleware
   server.get('/api/v1/secret', checkJWT, (req, res) => {
+    return res.json(secretData);
+  });
+
+  server.get('/api/v1/forsiteowner', checkJWT, checkRole('app owner'), (req, res) => {
     return res.json(secretData);
   });
 
