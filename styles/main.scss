@@ -2,18 +2,38 @@
 @import './_index';
 @import './header';
 
-html, body {
-  // !: to prevent bootstrap override the css / scss
-  // Now, Montserrat is inherited or otherwise Helvetica
-  // font-family: 'Montserrat', 'Helvetica' !important;
+// html, body {
+//   // !: to prevent bootstrap override the css / scss
+//   // Now, Montserrat is inherited or otherwise Helvetica
+//   // font-family: 'Montserrat', 'Helvetica' !important;
 
-  // Since change the order of bootstrap and scss,
-  // and scss is overriding bootstrap, 
-  // We do not need to use important!
-  font-family: 'Montserrat', 'Helvetica';
-  height:100%;
-  width:100%;
+//   // Since change the order of bootstrap and scss,
+//   // and scss is overriding bootstrap, 
+//   // We do not need to use important!
+//   font-family: 'Montserrat', 'Helvetica';
+//   height:100%;
+//   width:100%;
 
+// }
+
+*,
+*::before,
+*::after {
+  margin: 0;
+  padding: 0;
+  box-sizing: inherit;
+}
+
+html {
+    box-sizing: border-box;
+    font-size: 62.5%;
+}
+
+body {
+    font-family: 'Montserrat', 'Helvetica';
+    // color: $color-grey-dark-2;
+    font-weight: 300;
+    line-height: 1.6;
 }
 
 .clickable {
@@ -21,9 +41,9 @@ html, body {
 }
 
 .self-typed {
-  font-size: 30px;
+  font-size: 3rem;
   font-weight: bold;
-  letter-spacing: 2px;
+  letter-spacing: 0.2rem;
   color: white;
 }
 
@@ -32,6 +52,18 @@ html, body {
 }
 
 .base-page {
-  padding-top: 150px;
+  padding-top: 15rem;
   color: white;
+  background-color: #ecedee;
+  min-height: 100vh;
+  .page-header {
+
+    &__title {
+      font-weight: 700;
+      color: black;
+      display: inline-block;
+      margin-bottom: 2rem;
+    }
+  }
 }
+
