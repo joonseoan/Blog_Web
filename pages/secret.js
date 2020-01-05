@@ -12,7 +12,7 @@ import { getSecretData } from '../actions';
 class Secret extends React.Component {
 
     // [ IMPORTANT ]!!!!
-    // We cannot specify getInitial Props withouth the specification
+    // We cannot specify getInitial Props withouth the pre setup of static getInitialProps
     //  in the higher order component which is withAuth here.
 
     // It can receive the thprops only from the higher order component.!!

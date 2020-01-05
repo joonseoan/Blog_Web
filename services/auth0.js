@@ -160,17 +160,8 @@ class Auth0 {
                 //     // trim for all array elements
                 //     // Then if startsWith('jwt=') is true;
                 //     //  get that value
-                //     .find(cookie => cookie.trim().startsWith('jwt='))
+                //     .find(cookie => cookie.trim().startsWith('jwt=')) // When it is true!!
                     
-
-                // // [ IMPORTANT ] req.header is a saved value?
-                // // const expiresAtCookie = req.headers.cookie
-                // //     .split(';')
-                // //     // trim for all array elements
-                // //     .find(cookie => cookie.trim()
-                // //     // Greate!!!!!!!!!!!!!!!!!!! [IMPORTANT]
-                // //     // Pure Javascript!!!!
-                // //     .startsWith('expiresAt='));
                 
                 // if(!tokenCookie) {
                 //     return undefined;

@@ -1,7 +1,8 @@
-@import './shared/fonts';
-@import './_index';
+@import './index';
 @import './header';
-
+@import './portfolios';
+@import './shared/fonts';
+@import './shared/colors';
 // html, body {
 //   // !: to prevent bootstrap override the css / scss
 //   // Now, Montserrat is inherited or otherwise Helvetica
@@ -52,18 +53,16 @@ body {
 }
 
 .base-page {
-  padding-top: 15rem;
+  padding-top: 150px;
   color: white;
-  background-color: #ecedee;
+  background-color:darkgray;
   min-height: 100vh;
   .page-header {
-
     &__title {
       font-weight: 700;
       color: black;
       display: inline-block;
-      margin-bottom: 2rem;
+      margin-bottom: 20px;
     }
   }
 }
-

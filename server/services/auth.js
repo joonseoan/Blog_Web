@@ -73,6 +73,9 @@ exports.checkRole = role => (req, res, next) => {
     // Thanks to the middleware above,
     //  we can get req.user automatically.
     //  [ IMPORTANT ] It is why jwt-expresss is useful! 
+
+
+    console.log('check role must test returning function1@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@22')
     const user = req.user;
     if(user && user[`${namespace}role`] === role) {
         next();

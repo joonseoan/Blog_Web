@@ -6,7 +6,6 @@ import BasePage from '../BasePage';
 
 const hostUrl = 'http://localhost:3000/';
 
-
 // [ IMPORTANT !!!!!!!!!!!!!!!!!!!!!!!!!!!!]
 // Change it into ES17
 export default role => {
@@ -19,7 +18,6 @@ export default role => {
             // [ IMPORTANT !!!!!!!!!!!!!!!! ]
             // The high order component must have getInitialProps function
             // if the child component is required to specify getInitialProps!!!!!
-
             static async getInitialProps(ctx) {
                 // Define' child component's getInitialProps
                 const pageProps = ChildComponent.getInitialProps &&
@@ -32,7 +30,6 @@ export default role => {
             // alertMessage() {
             //     alert('SOME MESSAGE');
             // }
-            
             renderProtectedPage = () => {
 
                 // auth has user field
@@ -46,7 +43,7 @@ export default role => {
                     }
 
                 } else {
-                    isAuthorized = true;
+                    isAuthorized = false;
                 }
 
                 if(!isAuthenticated) {
@@ -66,13 +63,14 @@ export default role => {
                         </BaseLayout>
                     );
                 } else {
+                    // when fully authorized and authenticated
                     return <ChildComponent { ...this.props } />;
                 }
             }
 
             render() {
                 console.log('role: -----------> ', role) // ===> admin
-
+                console.log('this.props in Hoc', this.props)
                 // [ IMPORTANT ]
                 // The default props always have the value that the child component have
                 // if it has the props from "_app.js"!!!

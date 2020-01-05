@@ -4,9 +4,11 @@ import App, { Container } from 'next/app';
 // Stylings
 import 'bootstrap/dist/css/bootstrap.min.css';
 
+// !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 // [ IMPORTANT ] : It is a way to deviate the controll css lib.
 // now scss overriding bootstrap!!!
 //  We can change the order
+// !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 import '../styles/main.scss';
 
 import auth0Client from '../services/auth0';

@@ -7,16 +7,17 @@ const BasePage = props => {
   // const { className } = props;
   // console.log('props in BasePage: ', props);
 
-  const { className, title } = props;
-  
+  const { className, title, children } = props;
   return(
-    <div className={`base-page ${ props.className }`}>
+    <div className={`base-page ${ className }`}>
     {/* <div className={`base-page ${ className || '' }`}> */}
       <Container>
-        { title && <div className="page-header">
-            <h1 className="page-header__title">{ title }</h1>
-        </div>}
-        { props.children }
+        { title && 
+            (<div className="page-header">
+              <h1 className="page-header__title">{ title }</h1>
+            </div>)
+        }
+        { children }
       </Container>
     </div>
   );
@@ -26,7 +27,8 @@ const BasePage = props => {
 // However, it is much readable when we need to define "undefined" or "empty props"
 //  that depends on the parent.
 BasePage.defaultProps = {
-  className:''
+  className: '',
+  title: ''
 }
 
 export default BasePage;

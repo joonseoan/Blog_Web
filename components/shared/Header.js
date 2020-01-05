@@ -48,10 +48,12 @@ export default props => {
   const [ isOpen, setIsOpen ] = useState(false);
   const toggle = () => setIsOpen(!isOpen);
 
+  console.log('props in Header: ', props)
+
   return (
     <div>
       {/* dark: please find doc */}
-      <Navbar className="port-navbar port-default absolute" color="transparent" dark expand="md">
+      <Navbar className={ `port-navbar port-nav-base absolute ${ props.className }`} color="transparent" dark expand="md">
         <NavbarBrand className="port-navbar-brand" href="/">Joon An</NavbarBrand>
         <NavbarToggler onClick={ toggle } />
         <Collapse isOpen={isOpen} navbar>

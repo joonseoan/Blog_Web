@@ -46,7 +46,7 @@ app.prepare()
 
   // Cerntral error handler for all endpoints!
   server.use((err, req, res, next) => {
-    if(err.name == 'UnauthorizedError') {
+    if(err.name === 'UnauthorizedError') {
       res.status(401).send({
         title: 'Unauthorized',
         detail: 'Unauthorized Acess!!'

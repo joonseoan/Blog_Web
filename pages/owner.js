@@ -21,4 +21,4 @@ class Owner extends Component {
 
 // the second argument is an second argument is which is role
 //  in the parent component which is "withAuth"
-export default withAuth('app owner')(Owner);
+export default withAuth()(Owner);

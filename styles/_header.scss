@@ -1,5 +1,21 @@
+@import './shared/colors';
+
 // HEADER
-.port-navbar.port-default {
+// Same as below
+// .port-navbar {
+
+/* more detail */
+//   &.port-nave-base {
+//   }
+
+// }
+
+
+/* 
+  index 질문 할 것!!!!!!
+
+*/
+.port-navbar.port-nav-base {
   width: 100%;
   z-index: 15;
   padding: 4rem;
@@ -19,7 +35,7 @@
     }
 
     &-link {
-      color: white;
+      color: white; 
       font-weight: bold;
       letter-spacing: 0.08rem;
       font-size: 1.8rem;
@@ -34,4 +50,9 @@
       }
     }
   }
+}
+
+.port-navbar.port-nav-base.port-nav-default {
+  padding: 30px;
+  background-color: $secondary !important;
 }

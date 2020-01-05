@@ -17,7 +17,10 @@ const setAuthHeader = req => {
 export const getSecretData = async req => {
     
     const url = req ? 'http://localhost:3000/api/v1/secret' : '/api/v1/secret';
+    console.log('url =========================>', url)
     const token = setAuthHeader(req || null); 
+
+    console.log('token: ------------------->', token)
     
     try {
         const response = await axios.get(url, {
