@@ -52,7 +52,7 @@ class Portfolios extends React.Component {
         
             <ul>
               <Row>
-              { this.renderPosts(posts) }
+                { this.renderPosts(posts) }
               </Row>
             </ul>
         

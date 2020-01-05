@@ -53,9 +53,10 @@ body {
 }
 
 .base-page {
-  padding-top: 150px;
-  color: white;
-  background-color:darkgray;
+  padding-top: 15rem;
+  color: $black;
+  font-weight: 400;
+  background-color: lightgray;
   min-height: 100vh;
   .page-header {
     &__title {
@@ -65,4 +66,12 @@ body {
       margin-bottom: 20px;
     }
   }
+}
+
+.error {
+  padding-left: 0.3rem;
+  margin-top: 0.5rem;
+  text-transform: uppercase;
+  color: $red;
+  font-weight: 700;
 }

@@ -69,8 +69,6 @@ export default role => {
             }
 
             render() {
-                console.log('role: -----------> ', role) // ===> admin
-                console.log('this.props in Hoc', this.props)
                 // [ IMPORTANT ]
                 // The default props always have the value that the child component have
                 // if it has the props from "_app.js"!!!
