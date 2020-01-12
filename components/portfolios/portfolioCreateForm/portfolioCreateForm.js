@@ -1,8 +1,8 @@
 import React, { Component, Fragment } from 'react';
-import { Formik, Form, Field, ErrorMessage } from 'formik';
+import { Formik, Form, Field } from 'formik';
 
-import PortFolioInputs from '../form/portfolioInputs';
-import PortfolioDate from '../form/portfolioDate';
+import PortFolioInputs from '../../form/portfolioInputs';
+import PortfolioDate from '../../form/portfolioDate';
 
 const portfolioFields = {
     title: '',
@@ -48,6 +48,18 @@ const validateInputs = values => {
             }
         });
 
+    const startDate = values.startDate;
+    const endDate = values.endDate;
+
+    if(startDate && endDate && !startDate.isBefore(endDate)) {
+
+        errors['endDate'] = "end date cannot before start date!"
+    }
+
+    // console.log(errors)
+
+
+    
     return errors;
 
 };
@@ -85,7 +97,6 @@ const PORTFOLIO_INPUTS = [
 
 const renderInputField = () => {
     return PORTFOLIO_INPUTS.map((input, index) => {
-        console.log('input.name: ', input.name)
         if(input.name !== 'startDate' && input.name !== 'endDate') {
             return(
                 <Field
@@ -116,16 +127,20 @@ const PortfolioCreateForm = props => (
             initialValues={ portfolioFields }
             validate={ validateInputs }
             onSubmit={ (values, { setSubmitting }) => {
-                setTimeout(() => {
-                    alert(JSON.stringify(values, null, 2));
-                    setSubmitting(false);
-                }, 400);
+                console.log('wdddddddddddddd')
+                props.savePortfolio(values);
+                setSubmitting(false);
+
+                // setTimeout(() => {
+                //     alert(JSON.stringify(values, null, 2));
+                //     setSubmitting(false);
+                // }, 400);
             }}
         >
             { ({ isSubmitting }) => (
-                <Form>
+                <Form className="sport-form">
                     { renderInputField() }
-                    <button type="submit" disabled={ isSubmitting }>
+                    <button className="sbtn" type="submit" disabled={ isSubmitting }>
                         Create
                     </button>    
                 </Form>

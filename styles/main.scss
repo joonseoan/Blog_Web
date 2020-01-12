@@ -1,8 +1,14 @@
+// Shared
 @import './index';
 @import './header';
 @import './portfolios';
 @import './shared/fonts';
 @import './shared/colors';
+
+// component
+@import '../components/component.scss';
+
+
 // html, body {
 //   // !: to prevent bootstrap override the css / scss
 //   // Now, Montserrat is inherited or otherwise Helvetica
@@ -74,4 +80,27 @@ body {
   text-transform: uppercase;
   color: $red;
   font-weight: 700;
+}
+
+
+
+
+// Pages
+
+// ---------------------- portfolionew -----------------
+.sport {
+
+  
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  
+  grid-column-gap: 2rem;
+  // align-items: center;
+
+  // align-content: center;
+    // justify-items: center;
+
+  &__create {
+    // padding: 5rem;
+  }
 }
