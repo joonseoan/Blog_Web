@@ -4,7 +4,6 @@ import Header from '../shared/Header';
 const BaseLayout = (props) => {
   
   const { className, children, isAuthenticated, user, headerType } = props;
-  console.log('className in BaseLayout Comp: ', className);
 
   return (
     <div className="layout-container">

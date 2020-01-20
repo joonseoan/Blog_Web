@@ -33,5 +33,17 @@
     "react-dom": "^16.6.0",
     "react-typed": "^1.2.0",
     "reactstrap": "^6.5.0"
+  },
+  "browserslist": {
+    "production": [
+      ">0.2%",
+      "not dead",
+      "not op_mini all"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
   }
 }

@@ -14,14 +14,16 @@ const PortFolioInputs = ({
     // 1) props: cutomized value in the parents includint type, label 
     // console.log(props)
 
+    console.log(props)
+
     return (
         <div className="sform-group">
-            <label className="sform-group__label">{ props.label.toUpperCase() }</label>
             {
                 props.type === 'textarea' 
                     ? <textarea className="sform-group__input" { ...field } { ...props } />
-                    : <input className="sform-group__input" { ...field } { ...props } />
+                    : <input className="sform-group__input" placeholder={props.placeholder } { ...field } { ...props } />
             }
+            <label className="sform-group__label">{ props.label.toUpperCase() }</label>
             {
                 touched[ field.name ] &&
                     errors[ field.name ] && <div className="sform-group__error error">

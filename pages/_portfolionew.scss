@@ -1,0 +1,20 @@
+@import '../components/portfolios/portfolioCreateForm/portfolioCreateForm';
+// ---------------------- portfolionew -----------------
+.sport {
+    background-image: linear-gradient(to right bottom,  #abcdef, #fffff0); ;
+    
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    align-content: center;
+    justify-content: center;
+
+    &__create {        
+        width: 100%;
+        background-image: linear-gradient(to right bottom, $gray-600, $gray-800);
+
+        display: grid;
+        align-content: center;
+        justify-content: center;
+
+    }     
+}

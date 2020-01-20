@@ -1,5 +1,5 @@
 import React from 'react';
-import { Row, Col } from 'reactstrap';
+// import { Row, Col } from 'reactstrap';
 
 import BaseLayout from '../components/layouts/BaseLayout';
 import BasePage from '../components/BasePage';
@@ -17,26 +17,26 @@ class PortfolioNew extends React.Component {
         return(
             <BaseLayout { ...this.props.auth }>
                 <BasePage className="portfolio-create-page" title="create new portfolio">
-                        {/*
-                            [ IMPORTANT ]
-                            md is horizontal size of Col 
-                            
-                            <Row>
-                                <Col md="5">
-                                    <PortforlioCreateForm />
-                                </Col>
-                            </Row> 
-                         */}
-                         <div className="sport">
+                    {/*
+                        [ IMPORTANT ]
+                        md is horizontal size of Col 
+                        
+                        <Row>
+                            <Col md="5">
+                                <PortforlioCreateForm />
+                            </Col>
+                        </Row> 
+                        */}
+                        <div className="sport">
                             <div className="sport__create">
                                 <PortforlioCreateForm 
                                     savePortfolio={ this.savePortfolio } 
                                 />
                             </div>
-                            <div>
+                            <div className="sport_content">
                                 <h1>Under Construction</h1>
                             </div>
-                         </div>
+                        </div>
                 </BasePage>
             </BaseLayout>
         );

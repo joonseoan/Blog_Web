@@ -1,4 +1,4 @@
-import React, { Component, Fragment } from 'react';
+import React from 'react';
 import { Formik, Form, Field } from 'formik';
 
 import PortFolioInputs from '../../form/portfolioInputs';
@@ -43,7 +43,7 @@ const validateInputs = values => {
     // object to array only with keys
     Object.keys(values)
         .forEach(valueKey => {
-            if(!values[valueKey]) {
+            if(!values[valueKey] && valueKey !== 'endDate') {
                 errors[valueKey] = `${valueKey} is Required.`
             }
         });
@@ -52,66 +52,70 @@ const validateInputs = values => {
     const endDate = values.endDate;
 
     if(startDate && endDate && !startDate.isBefore(endDate)) {
+        errors['endDate'] = "end date cannot before start date!";
+    }   
 
-        errors['endDate'] = "end date cannot before start date!"
-    }
-
-    // console.log(errors)
-
-
-    
     return errors;
-
 };
 
 const PORTFOLIO_INPUTS = [
     {
         type: 'text',
+        placeholder: 'Title',
         name: 'title'
     }, 
     {
         type: 'text',
+        placeholder: 'Company',
         name: 'company'
     }, 
     {
         type: 'text',
+        placeholder: 'Location',
         name: 'location'
     }, 
     {
         type: 'text',
+        placeholder: 'Position',
         name: 'position'
     }, 
     {
         type: 'textarea',
+        placeholder: 'Description',
         name: 'description'
+    }, 
+    {
+        type: 'checkbox',
+        name: 'present'
     },
     {
-        type: 'text',
         name: 'startDate'
     }, 
     {
-        type: 'text',
         name: 'endDate'
     }
 ];
 
 const renderInputField = () => {
     return PORTFOLIO_INPUTS.map((input, index) => {
-        if(input.name !== 'startDate' && input.name !== 'endDate') {
-            return(
-                <Field
-                    key={ index }
-                    type={ input.type }
-                    label={ input.name }
-                    name={ input.name }
-                    component={ PortFolioInputs }
-                />
-            );
+        if(input.name !== 'startDate' && 
+           input.name !== 'endDate' && 
+           input.name !== 'present') {
+                return(
+                    <Field
+                        key={ index }
+                        type={ input.type }
+                        label={ input.name }
+                        placeholder={ input.placeholder }
+                        name={ input.name }
+                        component={ PortFolioInputs }
+                    />
+                );
         } else {
             return(
                 <Field
                     key={ index }
-                    // type={ input.type }
+                    type={ input.type || undefined }
                     label={ input.name }
                     name={ input.name }
                     component={ PortfolioDate }
@@ -121,33 +125,27 @@ const renderInputField = () => {
     })
 }
 
-const PortfolioCreateForm = props => (
-    <div>
-        <Formik
-            initialValues={ portfolioFields }
-            validate={ validateInputs }
-            onSubmit={ (values, { setSubmitting }) => {
-                console.log('wdddddddddddddd')
-                props.savePortfolio(values);
-                setSubmitting(false);
-
-                // setTimeout(() => {
-                //     alert(JSON.stringify(values, null, 2));
-                //     setSubmitting(false);
-                // }, 400);
-            }}
-        >
-            { ({ isSubmitting }) => (
-                <Form className="sport-form">
-                    { renderInputField() }
-                    <button className="sbtn" type="submit" disabled={ isSubmitting }>
-                        Create
-                    </button>    
-                </Form>
-               )
-            }
-        </Formik>
-    </div>
+const PortfolioCreateForm = props => (    
+    
+    <Formik
+        initialValues={ portfolioFields }
+        validate={ validateInputs }
+        onSubmit={ (values, { setSubmitting }) => {
+            props.savePortfolio(values);
+            setSubmitting(false);
+        }}
+    >
+        { ({ isSubmitting, values }) => (
+            <Form className="sport__create__form">
+                { renderInputField() }
+                <button className="sbtn" type="submit" disabled={ isSubmitting }>
+                    Create
+                </button>    
+            </Form>
+            )
+        }
+    </Formik>
+    
 )
 
 export default PortfolioCreateForm;

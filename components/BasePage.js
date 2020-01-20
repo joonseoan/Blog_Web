@@ -9,7 +9,6 @@ const BasePage = props => {
 
   const { className, title, children } = props;
 
-  console.log('className in BasePage Comp:', className);
   return(
     <div className={`base-page ${ className }`}>
     {/* <div className={`base-page ${ className || '' }`}> */}
