@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, Fragment } from 'react';
 import { Formik, Form, Field } from 'formik';
 
 import PortFolioInputs from '../../form/portfolioInputs';
@@ -14,139 +14,179 @@ const portfolioFields = {
     endDate: ''
 };
 
-const validateInputs = values => {
-    let errors = {};
+// const validateInputs = values => {
+//     let errors = {};
 
-    // [IMPORTANT - New object to Array!!! ]
-    // console.log('Should know this: ', Object.entries(values));
-    /* 
-        [ Outside Array ]
-        [
-            [Nested Array]
-            Key and Vaue in an array
-            0: (2) ["title", ""]
-            1: (2) ["company", ""]
-            2: (2) ["location", ""]
-            3: (2) ["position", ""]
-            4: (2) ["description", ""]
-            5: (2) ["startDate", ""]
-            6: (2) ["endDate", ""]
-        ]
-     */
+//     // [IMPORTANT - New object to Array!!! ]
+//     // console.log('Should know this: ', Object.entries(values));
+//     /* 
+//         [ Outside Array ]
+//         [
+//             [Nested Array]
+//             Key and Vaue in an array
+//             0: (2) ["title", ""]
+//             1: (2) ["company", ""]
+//             2: (2) ["location", ""]
+//             3: (2) ["position", ""]
+//             4: (2) ["description", ""]
+//             5: (2) ["startDate", ""]
+//             6: (2) ["endDate", ""]
+//         ]
+//      */
     
-    // Object.entries(values).forEach(([key, value])=> {
-    //     console.log('key: ', key, 'value: ', value)
-    // })
+//     // Object.entries(values).forEach(([key, value])=> {
+//     //     console.log('key: ', key, 'value: ', value)
+//     // })
 
 
-    // [ IMPORTANT ]
-    // object to array only with keys
-    Object.keys(values)
-        .forEach(valueKey => {
-            if(!values[valueKey] && valueKey !== 'endDate') {
-                errors[valueKey] = `${valueKey} is Required.`
-            }
-        });
+//     // [ IMPORTANT ]
+//     // object to array only with keys
+//     Object.keys(values)
+//         .forEach(valueKey => {
+//             if(!values[valueKey]) {
+//                 errors[valueKey] = `${valueKey} is Required.`
+//             }
+//         });
 
-    const startDate = values.startDate;
-    const endDate = values.endDate;
+//     if(endDateTime) {
+//         const startDate = values.startDate;
+//         const endDate = values.endDate;
+//         if(startDate && endDate && !startDate.isBefore(endDate)) {
+//             errors['endDate'] = "end date cannot before start date!";
+//         }   
+//     }
 
-    if(startDate && endDate && !startDate.isBefore(endDate)) {
-        errors['endDate'] = "end date cannot before start date!";
-    }   
-
-    return errors;
-};
+//     return errors;
+// };
 
 const PORTFOLIO_INPUTS = [
     {
         type: 'text',
-        placeholder: 'Title',
         name: 'title'
     }, 
     {
         type: 'text',
-        placeholder: 'Company',
         name: 'company'
     }, 
     {
         type: 'text',
-        placeholder: 'Location',
         name: 'location'
     }, 
     {
         type: 'text',
-        placeholder: 'Position',
         name: 'position'
     }, 
     {
         type: 'textarea',
-        placeholder: 'Description',
         name: 'description'
     }, 
-    {
-        type: 'checkbox',
-        name: 'present'
-    },
-    {
+    {   
+        date: true,
         name: 'startDate'
     }, 
     {
+        date: true,
         name: 'endDate'
+    },
+    {   
+        date: true,
+        type: 'checkbox',
+        name: 'present'
     }
 ];
 
-const renderInputField = () => {
-    return PORTFOLIO_INPUTS.map((input, index) => {
-        if(input.name !== 'startDate' && 
-           input.name !== 'endDate' && 
-           input.name !== 'present') {
+const PortfolioCreateForm = props => {
+    const [ endDateTime, setEndDateTime ] = useState(true);
+
+    const validateInputs = inputValues => {
+
+        let errors = {};
+        const { endDate, ...noA } = inputValues;
+        const values = endDateTime ? inputValues : noA;
+
+        // Object.entries(values).forEach(([key, value])=> {
+        //     console.log('key: ', key, 'value: ', value)
+        // })
+
+        Object.keys(values)
+            .forEach(valueKey => {
+                if(!values[valueKey]) {
+                    errors[valueKey] = `${valueKey} is Required.`
+                }
+            });
+
+        const start = values.startDate;
+        
+        let end;
+        if(endDateTime) {
+            end = values.endDate;
+        }
+
+        // isBefore from 'moment'
+        if(start && end && !start.isBefore(end)) {
+            errors['endDate'] = "end date cannot before start date!";
+        }   
+
+        return errors;
+    };
+
+    const renderInputField = () => {    
+        return PORTFOLIO_INPUTS.map((input, index) => {
+            if(!input.date) {
                 return(
                     <Field
                         key={ index }
                         type={ input.type }
                         label={ input.name }
-                        placeholder={ input.placeholder }
                         name={ input.name }
                         component={ PortFolioInputs }
                     />
                 );
-        } else {
-            return(
-                <Field
-                    key={ index }
-                    type={ input.type || undefined }
-                    label={ input.name }
-                    name={ input.name }
-                    component={ PortfolioDate }
-                />
-            );
-        }
-    })
+            } else {
+                return(
+                    <div  key={ index } 
+                        className={ input.name === 'endDate' 
+                            ? endDateTime
+                            ? 'endDate-show'
+                            : 'endDate-hide' 
+                            : null 
+                        }
+                    >
+                        <Field
+                            type={ input.type || undefined }
+                            label={ input.name }
+                            name={ input.name }
+                            getCheckValue={ input.name ? value => setEndDateTime(!value) : undefined }
+                            component={ PortfolioDate }
+                        />
+                    </div>
+                );
+            }
+        })
+    }    
+            
+    return (
+        <Formik
+            initialValues={ portfolioFields }
+            validate={ validateInputs }
+            onSubmit={ (values, { setSubmitting }) => {
+                if(!endDateTime) { values.endDate = undefined }
+                props.savePortfolio(values);
+                setSubmitting(false);
+            }}
+        >
+            { ({ isSubmitting, values }) => (
+                <Form className="sport__create__form">
+                    { renderInputField() }
+                    <button className="sbtn" type="submit" disabled={ isSubmitting }>
+                        Create Profile
+                    </button>    
+                </Form>
+                )
+            }
+        </Formik>
+    );
 }
-
-const PortfolioCreateForm = props => (    
-    
-    <Formik
-        initialValues={ portfolioFields }
-        validate={ validateInputs }
-        onSubmit={ (values, { setSubmitting }) => {
-            props.savePortfolio(values);
-            setSubmitting(false);
-        }}
-    >
-        { ({ isSubmitting, values }) => (
-            <Form className="sport__create__form">
-                { renderInputField() }
-                <button className="sbtn" type="submit" disabled={ isSubmitting }>
-                    Create
-                </button>    
-            </Form>
-            )
-        }
-    </Formik>
-    
-)
 
 export default PortfolioCreateForm;
 

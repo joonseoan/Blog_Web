@@ -1,4 +1,5 @@
 @import '../components/portfolios/portfolioCreateForm/portfolioCreateForm';
+
 // ---------------------- portfolionew -----------------
 .sport {
     background-image: linear-gradient(to right bottom,  #abcdef, #fffff0); ;
@@ -9,12 +10,12 @@
     justify-content: center;
 
     &__create {        
-        width: 100%;
         background-image: linear-gradient(to right bottom, $gray-600, $gray-800);
 
         display: grid;
         align-content: center;
-        justify-content: center;
-
+        justify-content: stretch;
+        
+        justify-items: center;
     }     
 }

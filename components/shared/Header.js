@@ -48,8 +48,6 @@ export default props => {
   const [ isOpen, setIsOpen ] = useState(false);
   const toggle = () => setIsOpen(!isOpen);
 
-  console.log('props in Header: ', props)
-
   return (
     <div>
       {/* dark: please find doc */}

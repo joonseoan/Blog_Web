@@ -19,7 +19,7 @@ class Portfolio extends React.Component {
       console.error(err);
     }
 
-    return {portfolio};
+    return { portfolio };
   }
 
   render() {

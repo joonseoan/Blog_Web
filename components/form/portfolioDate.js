@@ -46,19 +46,16 @@ export default class PortfolioDate extends Component {
 
     // not going to Formik Validation
     handleEndDateChange = (e, values, name) => {
-        console.log(values)
-
-        if(values[name] === 'endDate' && !this.state.isPresentJob) {
-            values[name] = undefined;
-        }
+        this.props.getCheckValue(!this.state.isPresentJob);
 
         // const { name, checked } = e.target;
         this.setState({ 
             isPresentJob: !this.state.isPresentJob,
         });
-    } 
+    }
 
     render() {
+        
         const { 
             form: { 
                 touched, 
@@ -73,47 +70,133 @@ export default class PortfolioDate extends Component {
             label,
             type
         } = this.props;
-        
-        console.log('label: =====>', label)
+
         return (
-            <div className={`sport__create__form__${ label }-input`} >
-                <label>{ label }</label>
-                { type && (
-                    // Not going to go through validation
-                    // Therefore need to get a new onChnange funtion
-                    <input 
+            <div className={ name === "present" ? "sform-group-present" : `sform-group sform-group-${name}`}>
+                <label 
+                    className={ name === "present" ? "sform-group-present__label" : "sform-group__label" } 
+                    htmlFor={ name  === "present" && name }
+                >
+                    { name === "endDate" ? "End Date" : name === "present" ? name : "Start Date" }
+                </label>
+                { type ?   
+                    (<input
+                        className="sform-group-present__input"   
+                        id={ name } 
                         type={ type } 
                         name={ name } 
                         value={ values[name] }
                         onChange={ e => this.handleEndDateChange(e, values, name) }
-                    />
-                )}
-                { !type && (
-                    <DatePicker                       
-                        selected={ values[name] || null }
-                        onChange={ (date) => this.handleChange(date, { 
-                            setFieldValue, setFieldTouched, name 
-                        })}
-                        // ???
-                        peekNextMonth
-                        showMonthDropdown
-                        showYearDropdown
-                        // for future plans
-                        // minDate={ moment() }
-                        
-                        // for birth dacy check
-                        // for carrier or experiences
-                        maxDate={ moment() }
-                        dropDownMode="select"
-                    />
-                )}
+                    />) :
+                    (
+                        <DatePicker
+                            className="sform-group__input"                       
+                            selected={ values[ name ] || null }
+                            onChange={ date => this.handleChange(date, { 
+                                setFieldValue, setFieldTouched, name 
+                            })}
+                            // ???
+                            peekNextMonth
+                            showMonthDropdown
+                            showYearDropdown
+                            // for future plans
+                            // minDate={ moment() }
+                            
+                            // for birth dacy check
+                            // for carrier or experiences
+                            maxDate={ moment() }
+                            dropDownMode="select"
+                        /> 
+                    )
+                }
                 {
-                   (!type && touched[ name ] &&
-                        errors[ name ]) && <div className="sform-group__error error">
+                    (!type && touched[ name ] && errors[ name ]) && <div className="sform-group__error error">
                             { errors[ name ] }
-                        </div>
+                    </div>
                 }
             </div>
         );
     }
 }
+
+// /*                  
+//                 {!type && (<div} 
+//                 // /* `sform-group sform-group-${ name }  */
+//                 //         // className={`sform-group-${ this.state.isPresentJob === false ? "show" : "hide" }`}
+//                 //         style={{ visibility : this.state.isPresentJob ? "hidden" : "visible" }}
+//                 //     >
+//                 //         <label 
+//                 //             className="sform-group__label">
+//                 //             { name === 'startDate' ? "Start Date" : "End Date" }
+//                 //         </label>
+//                 //         <div className="sform-group__input--date">
+//                 //             <DatePicker                       
+//                 //                 selected={ values[ name ] || null }
+//                 //                 onChange={ date => this.handleChange(date, { 
+//                 //                     setFieldValue, setFieldTouched, name 
+//                 //                 })}
+//                 //                 // ???
+//                 //                 peekNextMonth
+//                 //                 showMonthDropdown
+//                 //                 showYearDropdown
+//                 //                 // for future plans
+//                 //                 // minDate={ moment() }
+                                
+//                 //                 // for birth dacy check
+//                 //                 // for carrier or experiences
+//                 //                 maxDate={ moment() }
+//                 //                 dropDownMode="select"
+//                 //             />
+//                 //         </div>
+//                 //         {
+//                 //             (!type && errors[ name ] && touched[ name ]) && <div className="sform-group__error error">
+//                 //                     { errors[ name ] }
+//                 //             </div>
+//                 //         }
+//                 //     </div>)       
+//                 // }
+
+
+
+
+
+
+//                                 { !type && (<div 
+//                 /* `sform-group sform-group-${ name }  */
+//                         // className={`sform-group-${ this.state.isPresentJob === false ? "show" : "hide" }`}
+//                         style={{ visibility : this.state.isPresentJob ? "hidden" : "visible" }}
+//                     >
+//                         <label 
+//                             className="sform-group__label">
+//                             { name === 'startDate' ? "Start Date" : "End Date" }
+//                         </label>
+//                         <div className="sform-group__input--date">
+//                             <DatePicker                       
+//                                 selected={ values[ name ] || null }
+//                                 onChange={ date => this.handleChange(date, { 
+//                                     setFieldValue, setFieldTouched, name 
+//                                 })}
+//                                 // ???
+//                                 peekNextMonth
+//                                 showMonthDropdown
+//                                 showYearDropdown
+//                                 // for future plans
+//                                 // minDate={ moment() }
+                                
+//                                 // for birth dacy check
+//                                 // for carrier or experiences
+//                                 maxDate={ moment() }
+//                                 dropDownMode="select"
+//                             />
+//                         </div>
+//                         {
+//                             (!type && errors[ name ] && touched[ name ]) && <div className="sform-group__error error">
+//                                     { errors[ name ] }
+//                             </div>
+//                         }
+//                     </div>)       
+//                 }
+                
+//             </Fragment>
+
+//  */
