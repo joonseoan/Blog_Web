@@ -144,16 +144,9 @@ const PortfolioCreateForm = props => {
                 );
             } else {
                 return(
-                    <div  key={ index } 
-                        className={[`
-                            ${input.name === 'present' 
-                             ? 'sform-group-present' 
-                             : `sform-group sform-group-${input.name}`}
-                             `, `
-                              ${input.name === 'endDate' && !endDateTime 
-                              ? "endDate-hide" 
-                              : "endDate-show"}
-                        `]}
+                    <div key={ index } 
+                        className={`${input.name === "present" ? "sform-group-present" : "sform-group-date"}`} 
+                        style={{ display: (input.name === 'endDate' && !endDateTime) && 'none' }}                        
                     >
                         <Field
                             key={ index }

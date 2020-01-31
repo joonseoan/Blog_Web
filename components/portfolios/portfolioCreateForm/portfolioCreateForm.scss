@@ -34,13 +34,12 @@
     }
 }
 
-.endDate-show {
-    display: block;
+.sform-group-date {
+    margin-top: 1.5rem;
+    margin-bottom: 0.5rem;
+    // grid-column: 1 / 2;
+
+    display: grid;
+    grid-template-rows: min-content min-content 2rem;
+    justify-content: start;
 }
-
-.endDate-hide {
-    display: none;
-}
-
-
-
