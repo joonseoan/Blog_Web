@@ -1,18 +1,12 @@
 @import '../../styles/shared/colors';
 
 .sform-group-present {
-    width: 100%;
-    margin-top: 1rem;
-    
-    // grid-column: 1 / span 3;
-    // justify-self: end;
-    // align-self: center;
+    grid-column: 1 / -1;
+    justify-self: end;
 
     display: grid;
     grid-template-columns: 1fr repeat(2, min-content);
-    // align-items: center;
-    // align-content: center;
-
+    
     &::before {
         content: "";
         background-color: goldenrod;
@@ -36,8 +30,45 @@
     }
 }
 
+// .sform-group-present {
+//     width: 100%;
+//     // margin-top: 1rem;
+    
+//     grid-row: 7 / 8;
+//     grid-column: 1 / span 3;
+//     // justify-self: end;
+//     // align-self: center;
+
+//     display: grid;
+//     grid-template-columns: 1fr repeat(2, min-content);
+//     // align-items: center;
+//     // align-content: center;
+
+//     // &::before {
+//     //     content: "";
+//     //     background-color: goldenrod;
+//     //     display: block;
+//     //     height: 1px;
+//     // }
+
+//     &__label {
+//         margin-left: 2rem;
+//         color: goldenrod;
+//         font-weight: 700;
+//         font-size: 1.3rem;
+//         display: block;
+//         text-transform: uppercase;
+//         transform: translateY(0.18rem);
+//     }
+
+//     &__input {
+//         display: block;
+//         margin-left: 0.7rem;
+//     }
+// }
+
 .sform-group-startDate {
-    margin-top: 2rem;
+    margin-top: 1.5rem;
     grid-column: 1 / 2;
     display: grid;
     grid-template-rows: min-content min-content 2rem;
@@ -45,14 +76,12 @@
 }
 
 .sform-group-endDate {
-    margin-top: 2rem;
+    margin-top: 1.5rem;
     grid-column: 2 / 3;
 
     display: grid;
     grid-template-rows: min-content min-content 2rem;
     justify-content: start;
-
-
 }
 
 // .endDate--hide {

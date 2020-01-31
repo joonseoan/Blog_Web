@@ -72,20 +72,22 @@ export default class PortfolioDate extends Component {
         } = this.props;
 
         return (
-            <div className={ name === "present" ? "sform-group-present" : `sform-group sform-group-${name}`}>
+
+            <Fragment>
                 <label 
-                    className={ name === "present" ? "sform-group-present__label" : "sform-group__label" } 
-                    htmlFor={ name  === "present" && name }
+                    className={`${ name === 'present' ? 'sform-group-present__label' : 'sform-group__label'}`} 
+                    htmlFor={ name  === "present" ? name : undefined }
                 >
                     { name === "endDate" ? "End Date" : name === "present" ? name : "Start Date" }
                 </label>
+              
                 { type ?   
                     (<input
                         className="sform-group-present__input"   
                         id={ name } 
                         type={ type } 
                         name={ name } 
-                        value={ values[name] }
+                        value={ values[ name ] }
                         onChange={ e => this.handleEndDateChange(e, values, name) }
                     />) :
                     (
@@ -114,7 +116,7 @@ export default class PortfolioDate extends Component {
                             { errors[ name ] }
                     </div>
                 }
-            </div>
+            </Fragment>
         );
     }
 }
