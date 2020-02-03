@@ -118,3 +118,70 @@ For instance
 
 http://localhost:3000/role": "app owner",
 
+
+
+
+// ----------------------------- MongoDB -----------------------
+1. login MongoAtlas
+2. Find Context at right-top corner
+3. create a new project
+4. Choose "AWS" (Skip this step if I have a cluster)
+5. Choose "Virgina" ===> Free tier (Skip this step if I have a cluster)
+6. Choose "Cluster Tier" ===> "0" (Skip this step if I have a cluster)
+7. Back to the cluster Screen and then click "connect", not "connection"
+8. Click "Connect Your Application"
+   Driver: Node.js
+   Version: 3.0 or later 
+   key: 76 --- tk
+mongodb+srv://joon:<password>@portfolio-web-axc1h.mongodb.net/test?retryWrites=true&w=majority
+9. Click "Security
+    click Read and write to any database
+    setup newuser
+    setup password  
+10. Click Network Access 
+  - Setup whiltelist ip list
+  - Click 'add ip address'
+  - Click 'Add Current IP ADDRESS'
+  - Click 'Confirm'
+  - Click 'Connect' your cluster then
+  /* For ANYWJERE */
+  - WhitleList Entry : 0.0.0.0/0
+  - Confirm
+
+
+
+11. npm i --save mongoose
+
+
+
+/* From node class
+1. visit mongoDB web
+2. For local mongoDB server, for cloud base, it will use mongoDB atlas.
+3. Select the cloud base mongoDB. (mongoDB Atlas)
+4. Create a new cluster or 'build the first cluster'
+5. Select AWS, and N.Virginia (as default is)
+6. cluster tier : MO (For free...)
+7. And leave others as default is...
+8. Click the button, 'create a new cluster'
+9. Setup Security : adding a new user
+10. Select 'Read and write to any database'
+11. Setup whiltelist ip list
+12. Click 'add ip address'
+13. Click 'Add Current IP ADDRESS'
+14. Click 'Confirm'
+15. Click 'Connect' your cluster then
+16. In the popup window, click 'Connect Your Application'
+17. Select 'Short SRV connection string (For drivers compatible with MongoDB 3.6+)'
+18. Copy SRV address 
+19. Then get back to VSCODE AND then setup mongo database
+10. npm i --save mongodb
+11. 
+
+
+mongodb+srv://joon:<PASSWORD>@firstatlas-drwhc.mongodb.net/test?retryWrites=true
+
+[mongodb compass]
+1. download compass in mongodb web
+2. 
+
+*/

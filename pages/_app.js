@@ -1,5 +1,11 @@
 import React from 'react';
 import App, { Container } from 'next/app';
+import { ApolloClient } from 'apollo-client';
+import { ApolloProvider } from 'react-apollo';
+import { ApolloLink } from 'apollo-link';
+import { HttpLink, createHttpLink } from 'apollo-link-http';
+import { InMemoryCache } from 'apollo-cache-inmemory';
+import fetch from 'isomorphic-unfetch'
 
 // Stylings
 import 'bootstrap/dist/css/bootstrap.min.css';
@@ -10,8 +16,15 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 //  We can change the order
 // !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 import '../styles/main.scss';
-
 import auth0Client from '../services/auth0';
+
+const client = new ApolloClient({
+  link: createHttpLink({
+    fetch,
+    uri: '/graphql',
+  }),
+  cache: new InMemoryCache()
+});
 
 export default class MyApp extends App {
 
@@ -68,23 +81,19 @@ export default class MyApp extends App {
 
       return { pageProps, auth };
 
-    // } catch(e) {
-      // return undefined;
-      // throw new Error(e);
-    // }
   }
 
-  render () {
+  render() {
 
     // this.props
     const { Component, pageProps, auth } = this.props
     // enclosing current page's props
-
     return (
-      <Container>
-        <Component { ...pageProps } auth={ auth } />
-      </Container>
+        <Container>
+          <ApolloProvider client={ client }>
+              <Component { ...pageProps } auth={ auth } />
+          </ApolloProvider>
+        </Container>
     );
-
   }
 }

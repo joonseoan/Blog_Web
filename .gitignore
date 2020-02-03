@@ -1,3 +1,7 @@
 /node_modules
 /.next
 /services
+/server/config/dev.js
+
+
+setup.txt
