@@ -10,7 +10,6 @@ class PortfolioNew extends React.Component {
 
     savePortfolio = portfolioData => {
         alert(JSON.stringify(portfolioData, null, 2));
-
     }
     
     render() {
@@ -26,17 +25,17 @@ class PortfolioNew extends React.Component {
                                 <PortforlioCreateForm />
                             </Col>
                         </Row> 
-                        */}
-                        <div className="sport">
-                            <div className="sport__create">
-                                <PortforlioCreateForm 
-                                    savePortfolio={ this.savePortfolio } 
-                                />
-                            </div>
-                            <div className="sport_content">
-                                <h1>Under Construction</h1>
-                            </div>
+                    */}
+                    <div className="sport">
+                        <div className="sport__create">
+                            <PortforlioCreateForm 
+                                savePortfolio={ this.savePortfolio } 
+                            />
                         </div>
+                        <div className="sport_content">
+                            <h1>Under Construction</h1>
+                        </div>
+                    </div>
                 </BasePage>
             </BaseLayout>
         );

@@ -57,7 +57,7 @@ class Auth0 {
         }
 
         try {
-            // [ Decode from Token/(Decription)Key in Cookie]
+            // [ Decode from Token / (Decription) Key in Cookie]
             // "complete": return an object with the decoded payload and header.
             // In this scenario, we need to get "kid" in the header, now.
             // Then we can can implement getJWKS!!! to compare "kid" from callback url
@@ -152,7 +152,7 @@ class Auth0 {
 
             if(req.headers.cookie) {
 
-                const token = getCookieFromReq(req, 'jwt') 
+                const token = getCookieFromReq(req, 'jwt');
 
                 // // [ IMPORTANT ] req.header is a saved value?
                 // const tokenCookie = req.headers.cookie
@@ -203,9 +203,9 @@ class Auth0 {
                 */
                 if(authResult && authResult.accessToken && authResult.idToken) {
                     this.setSession(authResult);
-                    resolve('Auth Callback Success');
+                    return resolve('Auth Callback Success');
                 } else if (err) {
-                    reject(err);
+                    return reject(err);
                 }
             });
         });
@@ -213,7 +213,6 @@ class Auth0 {
 
     // receive the 
     setSession = authResult => {
-
         const expiresAt = JSON.stringify((authResult.expiresIn * 1000) + new Date().getTime());
         // localStorage.setItem('access_token', authResult.accessToken);
         // localStorage.setItem('id_token', authResult.idToken);
@@ -222,7 +221,6 @@ class Auth0 {
         Cookies.set('user', authResult.idTokenPayload);
         Cookies.set('jwt', authResult.idToken);
         Cookies.set('expiresAt', expiresAt);
-        
     }
 
     logout = () => {

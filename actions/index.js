@@ -3,32 +3,37 @@ import Cookies from 'js-cookie';
 
 import { getCookieFromReq } from '../helpers/utils';
 
-const setAuthHeader = req => {
+// import { fetchPortfolios } from '../graphql/queries';
 
- let token;
- if(req) {
-    token = getCookieFromReq(req, 'jwt');
- } else {
-    token = Cookies.getJSON('jwt');
- }
- return token;
+// export const getPortfolios = async () => {
+//     const response = await fetchPortfolios();
+//     console.log('response: ', response)
+//     return response;
+// }
+
+const setAuthHeader = req => {
+    let token;
+
+    if(req) {
+        token = getCookieFromReq(req, 'jwt');
+    } else {
+        token = Cookies.getJSON('jwt');
+    }
+    
+    return token;
 }
 
-export const getSecretData = async req => {
-    
-    const url = req ? 'http://localhost:3000/api/v1/secret' : '/api/v1/secret';
-    console.log('url =========================>', url)
-    const token = setAuthHeader(req || null); 
-
-    console.log('token: ------------------->', token)
-    
+export const getSecretData = async req => {    
     try {
+        const url = req ? 'http://localhost:3000/api/v1/secret' : '/api/v1/secret';
+        const token = setAuthHeader(req || null); 
+        console.log('token: ------------------->', token)
+    
         const response = await axios.get(url, {
             headers: { 
                 'authorization': token ? `Bearer ${token}` : ''
             }
         });
-
         console.log('response.data: ===> ', response.data)
         return response.data;
     } catch(e) {

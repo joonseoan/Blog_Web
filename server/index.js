@@ -92,12 +92,12 @@ app.prepare()
       })
     }
   });
-
    
   server.use(handle).listen(3000, (err) => {
     if (err) throw new Error(err);
     console.log(`Server ready at http://localhost:3000 & http://localhost:3000${ graphQLServer.graphqlPath }`)
   });
+  
 })
 .catch((ex) => {
   console.error(ex.stack)

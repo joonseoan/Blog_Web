@@ -5,13 +5,14 @@ module.exports = gql`
     scalar Date
 
     type Portfolio {
-        userid: ID!
+        _id: ID!
+        userId: ID!
         title: String!
         company: String!
         location: String!
         position: String!
         description: String!
-        startDate: Date!
+        startDate: Date
         endDate: Date
     }
 
@@ -20,17 +21,37 @@ module.exports = gql`
     }
 
     type Mutation {
-        createPortfolio(data: portfolioInput): Portfolio! 
+        createPortfolio(data: createPortfolioInput): Portfolio!
+        updatePortfolio(data: updatePortfolioInput): Portfolio!
+        deletePortfolio(data: deletedPortfolioInput): DeleteMessage!
     }
 
-    input portfolioInput {
+    input createPortfolioInput {
         title: String!
         company: String!
         location: String!
         position: String!
         description: String!
-        startDate: Date!
+        startDate: Date
         endDate: Date
     }
 
+    input updatePortfolioInput {
+        _id: ID!
+        title: String
+        company: String
+        location: String
+        position: String
+        description: String
+        startDate: Date
+        endDate: Date
+    }
+
+    input deletedPortfolioInput {
+        _id: ID!
+    }
+
+    type DeleteMessage {
+        message: String!
+    }
 `;

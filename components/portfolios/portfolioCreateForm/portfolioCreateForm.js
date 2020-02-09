@@ -167,6 +167,7 @@ const PortfolioCreateForm = props => {
             initialValues={ portfolioFields }
             validate={ validateInputs }
             onSubmit={ (values, { setSubmitting }) => {
+                console.log('values: ', typeof values.startDate)
                 if(!endDateTime) { values.endDate = undefined }
                 props.savePortfolio(values);
                 setSubmitting(false);
@@ -179,14 +180,12 @@ const PortfolioCreateForm = props => {
                         Create Profile
                     </button>    
                 </Form>
-                )
-            }
+            )}
         </Formik>
     );
 }
 
 export default PortfolioCreateForm;
-
 
 // [ Formik 1]
 // const PortforlioCreateForm = () => (

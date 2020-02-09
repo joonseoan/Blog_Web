@@ -15,12 +15,13 @@ class Secret extends React.Component {
     // We cannot specify getInitial Props withouth the pre setup of static getInitialProps
     //  in the higher order component which is withAuth here.
 
-    // It can receive the thprops only from the higher order component.!!
+    // It can receive the props only from the higher order component.!!
     static async getInitialProps (ctx) {
         // try {
             const superSecretValue = 'Super Secret Value';
             
             let secretData;
+            
             if(process.browser) {
                 secretData = await getSecretData();
             } else {

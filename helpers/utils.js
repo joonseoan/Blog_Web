@@ -7,8 +7,7 @@ export const getCookieFromReq = (req, cookieInfo) => {
         if(!cookie) {
             return undefined;
         }
+        
         return cookie.split('=')[1];                
-        // return token.toString();    
     }
-
 }

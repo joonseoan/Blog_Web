@@ -3,7 +3,6 @@ import React, { Component } from 'react';
 import BaseLayout from '../layouts/BaseLayout';
 import BasePage from '../BasePage';
 
-
 const hostUrl = 'http://localhost:3000/';
 
 // [ IMPORTANT !!!!!!!!!!!!!!!!!!!!!!!!!!!!]
@@ -41,7 +40,6 @@ export default role => {
                     if(userRole && userRole === role) {
                         isAuthorized = true;
                     }
-
                 } else {
                     isAuthorized = false;
                 }
@@ -71,7 +69,7 @@ export default role => {
             render() {
                 // [ IMPORTANT ]
                 // The default props always have the value that the child component have
-                // if it has the props from "_app.js"!!!
+                // if it has the props from "_app.js" !!!
                 // console.log('props in high order component', this.props);
 
                 // Also, over here it can send the separate props value to the child component
@@ -99,11 +97,13 @@ export default role => {
 
 // Function Promise 
 // "rolde is a second argument"
+
 /* 
 export default (ChildComponent,  role) => {
 
     // At the function, it returns React function / class.
     // Then invoke returning function (which is React )again 
+    
     return class withAuth extends Component {
         
         // [ IMPORTANT !!!!!!!!!!!!!!!! ]

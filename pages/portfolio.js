@@ -4,6 +4,8 @@ import BasePage from '../components/BasePage';
 import { withRouter } from 'next/router'
 import axios from 'axios';
 import withAuth from '../components/hoc/withAuth';
+import { graphql } from 'react-apollo';
+import query from '../graphql/queries/portfolio.queries'; 
 
 class Portfolio extends React.Component {
 
@@ -22,6 +24,11 @@ class Portfolio extends React.Component {
     return { portfolio };
   }
 
+  componentDidMount = async () => {
+    const response = await this.props.data;
+    console.log('response: ', response);
+  }
+
   render() {
     const { portfolio } = this.props;
 
@@ -38,4 +45,8 @@ class Portfolio extends React.Component {
 }
 
 // export default withAuth(Portfolio);
-export default withRouter(Portfolio);
+// export default withRouter(
+//   graphql(fetchPortfolios)
+// )(Portfolio);
+
+export default graphql(query)(Portfolio);
