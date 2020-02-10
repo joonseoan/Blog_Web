@@ -5,14 +5,16 @@ const { checkJWTWithApollo, checkRoleWithApollo } = require('../../../services/a
 
 const Queries = {
     portfolios: async (parent, args, { req }, info) => {
+
+
+        console.log('dddddddddddddddddddddddddddddddddddddd')
         
-        console.log('ddddddddddddddddddddddddddddddddddddddddddddddddddddd')
         try {
-            // checkJWTWithApollo(req);
-            // const isValidAuthorization = checkRoleWithApollo('app owner', req);
-            // if(!isValidAuthorization) {
-            //     throw new Error('You are not authorized for this page');
-            // }
+            checkJWTWithApollo(req);
+            const isValidAuthorization = checkRoleWithApollo('app owner', req);
+            if(!isValidAuthorization) {
+                throw new Error('You are not authorized for this page');
+            }
 
             const portfolios = await Portfolio.find({});
         

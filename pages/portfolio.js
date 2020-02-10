@@ -5,10 +5,10 @@ import { withRouter } from 'next/router'
 import axios from 'axios';
 import withAuth from '../components/hoc/withAuth';
 import { graphql } from 'react-apollo';
-import query from '../graphql/queries/portfolio.queries'; 
+import fetchPortfolios from '../graphql/queries/portfolio.queries'; 
+import { withApollo } from '../graphql/withApolloClient';
 
 class Portfolio extends React.Component {
-
   static async getInitialProps({query}) {
     const portfolioId = query.id;
     let portfolio = {};
@@ -17,21 +17,24 @@ class Portfolio extends React.Component {
       const response = await axios.get(`https://jsonplaceholder.typicode.com/posts/${portfolioId}`);
       portfolio = response.data;
 
+      // graphql(fetchPortfolios);
+      console.log('ddddddddddddddddd =============> ', ddd)
+      // const ddd = fetchPortfolios();
+      // console.log(ddd)
+
     } catch(err) {
       console.error(err);
     }
 
-    return { portfolio };
+    return { portfolio, graphqlData: graphql(fetchPortfolios) };
   }
 
-  componentDidMount = async () => {
-    const response = await this.props.data;
-    console.log('response: ', response);
-  }
-
-  render() {
-    const { portfolio } = this.props;
-
+  render () {
+    const { portfolio, graphqlData } = this.props;
+    console.log(graphqlData.data)
+    // const { fetchPortfolios } = this.props.data;
+    // portfolios().then(ddd=> console.log(ddd))
+    return <div>Test</div>
     return (
       <BaseLayout { ...this.props.auth }>
         <BasePage title="Portfolios">
@@ -44,9 +47,24 @@ class Portfolio extends React.Component {
   }
 }
 
+// export default withApollo(Portfolio)
+
+
+export default withRouter(Portfolio);
+// export default graphql(fetchPortfolios)(
+//   withRouter(Portfolio)
+// )
+
+
+
+// export default graphql(fetchPortfolios)(
+//   withRouter(Portfolio)
+// )
+
+// export default withRouter(Portfolio);
 // export default withAuth(Portfolio);
 // export default withRouter(
 //   graphql(fetchPortfolios)
 // )(Portfolio);
 
-export default graphql(query)(Portfolio);
+// export default graphql(query)(Portfolio);

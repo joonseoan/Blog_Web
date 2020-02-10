@@ -13,8 +13,10 @@
   "license": "ISC",
   "description": "",
   "dependencies": {
+    "@apollo/react-ssr": "^3.1.3",
     "@zeit/next-css": "^1.0.1",
     "@zeit/next-sass": "^1.0.1",
+    "apollo-boost": "^0.4.7",
     "apollo-cache-inmemory": "^1.6.5",
     "apollo-client": "^2.6.8",
     "apollo-link": "^1.2.13",
@@ -43,6 +45,7 @@
     "mongoose": "^5.8.11",
     "next": "^7.0.2",
     "next-routes": "^1.4.2",
+    "next-with-apollo": "^5.0.0",
     "node-sass": "^4.9.4",
     "prop-types": "^15.7.2",
     "react": "^16.6.0",
@@ -59,7 +62,7 @@
       "not op_mini all"
     ],
     "development": [
-      "last 1 chrome version",
+      "last 1 chrom`e version",
       "last 1 firefox version",
       "last 1 safari version"
     ]
