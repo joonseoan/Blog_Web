@@ -4,11 +4,7 @@ const Portfolio = mongoose.model('Portfolio');
 const { checkJWTWithApollo, checkRoleWithApollo } = require('../../../services/auth');
 
 const Queries = {
-    portfolios: async (parent, args, { req }, info) => {
-
-
-        console.log('dddddddddddddddddddddddddddddddddddddd')
-        
+    portfolios: async (parent, args, { req }, info) => {        
         try {
             checkJWTWithApollo(req);
             const isValidAuthorization = checkRoleWithApollo('app owner', req);

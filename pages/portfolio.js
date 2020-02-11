@@ -6,7 +6,6 @@ import axios from 'axios';
 import withAuth from '../components/hoc/withAuth';
 import { graphql } from 'react-apollo';
 import fetchPortfolios from '../graphql/queries/portfolio.queries'; 
-import { withApollo } from '../graphql/withApolloClient';
 
 class Portfolio extends React.Component {
   static async getInitialProps({query}) {
@@ -18,7 +17,7 @@ class Portfolio extends React.Component {
       portfolio = response.data;
 
       // graphql(fetchPortfolios);
-      console.log('ddddddddddddddddd =============> ', ddd)
+      // console.log('ddddddddddddddddd =============> ', ddd)
       // const ddd = fetchPortfolios();
       // console.log(ddd)
 
@@ -26,12 +25,13 @@ class Portfolio extends React.Component {
       console.error(err);
     }
 
-    return { portfolio, graphqlData: graphql(fetchPortfolios) };
+    return { portfolio };
   }
 
   render () {
-    const { portfolio, graphqlData } = this.props;
-    console.log(graphqlData.data)
+    console.log(this.props.data)
+    const { portfolio, data:{ portfolios }} = this.props;
+    console.log(portfolios)
     // const { fetchPortfolios } = this.props.data;
     // portfolios().then(ddd=> console.log(ddd))
     return <div>Test</div>
@@ -49,11 +49,10 @@ class Portfolio extends React.Component {
 
 // export default withApollo(Portfolio)
 
-
-export default withRouter(Portfolio);
-// export default graphql(fetchPortfolios)(
-//   withRouter(Portfolio)
-// )
+// export default withRouter(Portfolio);
+export default graphql(fetchPortfolios)(
+  withRouter(Portfolio)
+)
 
 
 

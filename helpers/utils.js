@@ -11,3 +11,4 @@ export const getCookieFromReq = (req, cookieInfo) => {
         return cookie.split('=')[1];                
     }
 }
+

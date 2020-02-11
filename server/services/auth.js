@@ -48,7 +48,6 @@ exports.checkJWT = jwt({
 exports.checkJWTWithApollo = req => {
     try {
         const { ahthorization } = req.headers;
-        console.log('author: ------------>', req.headers.cookie)
         const [ bearer, token ] = ahthorization.split(' ');
 
         if(!token) {
