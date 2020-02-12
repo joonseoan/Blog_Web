@@ -16,11 +16,6 @@ class Portfolio extends React.Component {
       const response = await axios.get(`https://jsonplaceholder.typicode.com/posts/${portfolioId}`);
       portfolio = response.data;
 
-      // graphql(fetchPortfolios);
-      // console.log('ddddddddddddddddd =============> ', ddd)
-      // const ddd = fetchPortfolios();
-      // console.log(ddd)
-
     } catch(err) {
       console.error(err);
     }
@@ -29,11 +24,8 @@ class Portfolio extends React.Component {
   }
 
   render () {
-    console.log(this.props.data)
     const { portfolio, data:{ portfolios }} = this.props;
     console.log(portfolios)
-    // const { fetchPortfolios } = this.props.data;
-    // portfolios().then(ddd=> console.log(ddd))
     return <div>Test</div>
     return (
       <BaseLayout { ...this.props.auth }>
@@ -47,23 +39,8 @@ class Portfolio extends React.Component {
   }
 }
 
-// export default withApollo(Portfolio)
-
-// export default withRouter(Portfolio);
 export default graphql(fetchPortfolios)(
   withRouter(Portfolio)
 )
 
-
-
-// export default graphql(fetchPortfolios)(
-//   withRouter(Portfolio)
-// )
-
-// export default withRouter(Portfolio);
 // export default withAuth(Portfolio);
-// export default withRouter(
-//   graphql(fetchPortfolios)
-// )(Portfolio);
-
-// export default graphql(query)(Portfolio);

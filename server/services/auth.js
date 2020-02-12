@@ -45,19 +45,39 @@ exports.checkJWT = jwt({
     algorithms: ['RS256']
 });
 
+
+const getCookieFromReqHeader = (req, cookieInfo) => {
+    try {
+        if(req.headers.cookie) {
+            const cookie = req.headers.cookie
+                    .split(';')
+                    .find(cookie => cookie.trim().startsWith(`${cookieInfo}=`))
+                
+            if(!cookie) {
+                throw new Error('Unable to get cookie in Server.');
+            }
+            
+            return cookie.split('=')[1];                
+        }
+    } catch(e) {
+        throw new Error(e);
+    }
+}
+
 exports.checkJWTWithApollo = req => {
     try {
-        const { ahthorization } = req.headers;
-        const [ bearer, token ] = ahthorization.split(' ');
-
+        const token = getCookieFromReqHeader(req, 'jwt');
         if(!token) {
             throw new Error('Unable to get token')
         }
         const user = jsonwebtoken.decode(token);
+
         if(!user) {
             throw new Error('Unable to get user')
         }
+
         req.user = user;
+
     } catch(e) {
         throw new Error(e);
     }

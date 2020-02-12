@@ -2,7 +2,7 @@ const express = require('express');
 const next = require('next');
 const mongoose = require('mongoose');
 const bodyParser = require('body-parser')
-
+const cors = require('cors');
 // next's routes
 const routes = require('../routes');
 const { checkJWT, checkRole } = require('./services/auth');
@@ -15,6 +15,7 @@ const handle = routes.getRequestHandler(app);
 const { MONGO_SERVER } = require('./config');
 require('./models');
 
+const server = express();
 const bookAPIs = require('./routes/book');
 const graphQLServer = require('./graphql/apolloServer');  
 
@@ -36,27 +37,32 @@ mongoose.connect(MONGO_SERVER, {
     console.log(err);
   });
 
+  server.use(bodyParser.json());
+
+  // server.use((req, res, next) => {
+  //   res.setHeader('Access-Control-Allow-Origin', '*');
+  //   res.setHeader('Access-Control-Allow-Methods', 'OPTIONS, GET, POST, PUT, PATCH, DELETE');
+  //   res.setHeader('Access-Control-Allow-Headers', 'Origin, Authorization, X-Requested-With, Content-Type, Accept');
+  
+  //   if(req.method === 'OPTIONS') {
+  //     return res.sendStatus(200);
+  //   }
+  //   next();
+  // });
+  const corsOptions = {
+  origin: `${ graphQLServer.graphqlPath }`,
+  credentials: true // <-- REQUIRED backend setting
+};
+
+  server.use(cors(corsOptions));
+
 
 // app.prepare ==> preparing Express Server in "app"'s callback
 app.prepare()
   .then(() => {
   
 // Preparing Express's callback
-  const server = express();
 
-  server.use(bodyParser.json());
-
-  server.use((req, res, next) => {
-    res.setHeader('Access-Control-Allow-Origin', '*');
-    res.setHeader('Access-Control-Allow-Methods', 'OPTIONS, GET, POST, PUT, PATCH, DELETE');
-    res.setHeader('Access-Control-Allow-Headers', 'Origin, Authorization, X-Requested-With, Content-Type, Accept');
-  
-    if(req.method === 'OPTIONS') {
-      return res.sendStatus(200);
-    }
-    next();
-  });
-  
   server.use('/api/v1/books', bookAPIs);
 
   // middleware
