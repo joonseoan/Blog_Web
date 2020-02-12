@@ -1,5 +1,4 @@
 const mongoose = require('mongoose');
-
 const Portfolio = mongoose.model('Portfolio');
 const { checkJWTWithApollo, checkRoleWithApollo } = require('../../../services/auth');
 

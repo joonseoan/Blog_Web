@@ -41,7 +41,6 @@ const Mutations = {
         try {
             checkJWTWithApollo(req);
             const isValidAuthorization = checkRoleWithApollo('app owner', req);
-
             if(!isValidAuthorization) {
                 throw new Error('You are not authorized for this page');
             }
@@ -73,7 +72,6 @@ const Mutations = {
         try {
             checkJWTWithApollo(req);
             const isValidAuthorization = checkRoleWithApollo('app owner', req);
-
             if(!isValidAuthorization) {
                 throw new Error('You are not authorized for this page');
             }

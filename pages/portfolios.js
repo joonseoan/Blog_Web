@@ -3,6 +3,8 @@ import { Col, Row, Card, CardImg, CardBody, CardTitle, CardSubtitle, CardText, B
 import BaseLayout from '../components/layouts/BaseLayout';
 import BasePage from '../components/BasePage';
 import { Link } from '../routes';
+import { graphql } from 'react-apollo';
+import fetchPortfolios from '../graphql/queries/portfolio.queries'; 
 
 import axios from 'axios';
 
@@ -21,8 +23,10 @@ class Portfolios extends React.Component {
     return {posts: posts.splice(0, 10)};
   }
 
+
   renderPosts(posts) {
-    return posts.map((post, index) => {
+  const { portfolios } = this.props.data;
+    return portfolios.map((post, index) => {
       return (
         <Col md="4" key={index}>
           <React.Fragment>
@@ -30,9 +34,9 @@ class Portfolios extends React.Component {
               <Card>
                 <CardImg top width="100%" src="/assets/318x180.svg" alt="Card image cap" />
                 <CardBody>
-                  <CardTitle>Card title</CardTitle>
-                  <CardSubtitle>Card subtitle</CardSubtitle>
-                  <CardText>Some quick example text to build on the card title and make up the bulk of the card's content.</CardText>
+                  <CardTitle>{ post.title}</CardTitle>
+                  <CardSubtitle>{ post.position }</CardSubtitle>
+                  <CardText>{ post.description }</CardText>
                   <Button>Button</Button>
                 </CardBody>
               </Card>
@@ -44,8 +48,10 @@ class Portfolios extends React.Component {
   }
 
   render() {
-    const { posts } = this.props;
-
+    const { posts, data: { portfolios } } = this.props;
+    
+    if(!portfolios) return <div />
+    
     return (
       <BaseLayout { ...this.props.auth }>
         <BasePage className="portfolio-page" title="Portfolios">
@@ -62,4 +68,5 @@ class Portfolios extends React.Component {
   }
 }
 
-export default Portfolios;
+export default graphql(fetchPortfolios)(Portfolios);
+// export default Portfolios;

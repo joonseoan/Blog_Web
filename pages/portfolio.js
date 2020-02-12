@@ -25,8 +25,8 @@ class Portfolio extends React.Component {
 
   render () {
     const { portfolio, data:{ portfolios }} = this.props;
+    
     console.log(portfolios)
-    return <div>Test</div>
     return (
       <BaseLayout { ...this.props.auth }>
         <BasePage title="Portfolios">
