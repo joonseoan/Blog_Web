@@ -16,6 +16,7 @@ class Portfolio extends React.Component {
 
   render () {
     const { portfolio } = this.props.data;
+    
     if(!portfolio) {
       return <div />;
     }
