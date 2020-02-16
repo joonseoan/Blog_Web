@@ -6,7 +6,6 @@ import { createHttpLink } from 'apollo-link-http';
 import { InMemoryCache } from 'apollo-cache-inmemory';
 import fetch from 'isomorphic-unfetch';
 import { getCookieFromReq } from '../helpers/utils';
-
 // Stylings
 import 'bootstrap/dist/css/bootstrap.min.css';
 
@@ -18,9 +17,9 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import '../styles/main.scss';
 import auth0Client from '../services/auth0';
 
-
+// [ Cookie base]
 const link = createHttpLink({
-  uri: process.browser ? '/graphql' : 'http://localhost:3000/graphql',
+  uri: process.browser ? 'http://localhost:3000/graphql' : '/graphql',
   credentials: 'include'
 });
 
@@ -64,7 +63,7 @@ class MyApp extends App {
       } else {
         console.log('server - auth')
         user = await auth0Client.serverAuth(ctx.req);
-      }      
+      }
         
       // !!user means that 
       // let isAuthenticated = false;
@@ -82,7 +81,8 @@ class MyApp extends App {
       if (Component.getInitialProps) {
         pageProps = await Component.getInitialProps(ctx)
       }
-      return { pageProps, auth };
+
+      return { pageProps, auth };  
   }
 
   render() {
@@ -90,15 +90,16 @@ class MyApp extends App {
     // console.log('this.props ===================> ', this.props)
     // this.props
     const { Component, pageProps, auth } = this.props
+
     // enclosing current page's props
     return (
-        <Container>
-          <ApolloProvider client={ client }>
-              <Component { ...pageProps } auth={ auth } />
-          </ApolloProvider>
-        </Container>
+      <Container>
+        <ApolloProvider client={ client }>
+            <Component { ...pageProps } auth={ auth } />
+        </ApolloProvider>
+      </Container>
     );
   }
 }
+
 export default MyApp;
-// export default withApollo(MyApp);

@@ -4,42 +4,38 @@ import BaseLayout from '../components/layouts/BaseLayout';
 import BasePage from '../components/BasePage';
 import { Link } from '../routes';
 import { graphql } from 'react-apollo';
-import fetchPortfolios from '../graphql/queries/portfolio.queries'; 
+import fetchPortfolios from '../graphql/queries/portfolios.queries'; 
+import { Router } from '../routes';
 
 import axios from 'axios';
 
 class Portfolios extends React.Component {
 
-  static async getInitialProps() {
-    let posts = [];
-
-    try {
-      const response = await axios.get('https://jsonplaceholder.typicode.com/posts');
-      posts = response.data;
-    } catch(err) {
-      console.error(err);
-    }
-
-    return {posts: posts.splice(0, 10)};
+  static async getInitialProps({ query }) {
+    return { query };
   }
 
+  renderPortfolio = _id => {
+    Router.pushRoute(`/portfolio/${ _id }`);
+  }
 
-  renderPosts(posts) {
-  const { portfolios } = this.props.data;
+  renderPosts = posts => {
+    const { portfolios } = this.props.data;
     return portfolios.map((post, index) => {
       return (
         <Col md="4" key={index}>
           <React.Fragment>
             <span>
-              <Card>
-                <CardImg top width="100%" src="/assets/318x180.svg" alt="Card image cap" />
+              <div 
+                onClick={ () => this.renderPortfolio(post._id) } 
+                style={{ border: 'solid 1px'}}>
                 <CardBody>
                   <CardTitle>{ post.title}</CardTitle>
                   <CardSubtitle>{ post.position }</CardSubtitle>
                   <CardText>{ post.description }</CardText>
                   <Button>Button</Button>
                 </CardBody>
-              </Card>
+              </div>
             </span>
           </React.Fragment>
         </Col>
@@ -55,13 +51,11 @@ class Portfolios extends React.Component {
     return (
       <BaseLayout { ...this.props.auth }>
         <BasePage className="portfolio-page" title="Portfolios">
-        
             <ul>
               <Row>
                 { this.renderPosts(posts) }
               </Row>
             </ul>
-        
         </BasePage>
       </BaseLayout>
     )
@@ -69,4 +63,3 @@ class Portfolios extends React.Component {
 }
 
 export default graphql(fetchPortfolios)(Portfolios);
-// export default Portfolios;

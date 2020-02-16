@@ -11,7 +11,7 @@ import { getCookieFromReq } from '../helpers/utils';
 //     return response;
 // }
 
-const setAuthHeader = req => {
+export const setAuthHeader = req => {
     let token;
 
     if(req) {
@@ -26,7 +26,7 @@ const setAuthHeader = req => {
 export const getSecretData = async req => {    
     try {
         const url = req ? 'http://localhost:3000/api/v1/secret' : '/api/v1/secret';
-        const token = setAuthHeader(req || null); 
+        const token = this.setAuthHeader(req || null); 
     
         const response = await axios.get(url, {
             headers: { 

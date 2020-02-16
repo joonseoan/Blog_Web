@@ -1,8 +1,8 @@
 import gql from 'graphql-tag';
 
 export default gql`
-    query Portfolio($_id: ID!) {
-        portfolio(_id: $_id) {
+    {
+        portfolios {
             _id
             userId
             title
@@ -10,8 +10,6 @@ export default gql`
             location
             position
             description
-            startDate
-            endDate
         }
     }
 `;

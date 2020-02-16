@@ -12,18 +12,19 @@ module.exports = gql`
         location: String!
         position: String!
         description: String!
-        startDate: Date
+        startDate: Date!
         endDate: Date
     }
 
     type Query {
         portfolios: [Portfolio]!
+        portfolio(_id: ID!): Portfolio!
     }
 
     type Mutation {
         createPortfolio(data: createPortfolioInput): Portfolio!
         updatePortfolio(data: updatePortfolioInput): Portfolio!
-        deletePortfolio(data: deletedPortfolioInput): DeleteMessage!
+        deletePortfolio(_id: ID!): String!
     }
 
     input createPortfolioInput {
@@ -32,7 +33,7 @@ module.exports = gql`
         location: String!
         position: String!
         description: String!
-        startDate: Date
+        startDate: Date!
         endDate: Date
     }
 
@@ -45,13 +46,5 @@ module.exports = gql`
         description: String
         startDate: Date
         endDate: Date
-    }
-
-    input deletedPortfolioInput {
-        _id: ID!
-    }
-
-    type DeleteMessage {
-        message: String!
     }
 `;

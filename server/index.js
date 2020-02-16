@@ -37,25 +37,25 @@ mongoose.connect(MONGO_SERVER, {
     console.log(err);
   });
 
-  server.use(bodyParser.json());
+server.use(bodyParser.json());
 
-  // server.use((req, res, next) => {
-  //   res.setHeader('Access-Control-Allow-Origin', '*');
-  //   res.setHeader('Access-Control-Allow-Methods', 'OPTIONS, GET, POST, PUT, PATCH, DELETE');
-  //   res.setHeader('Access-Control-Allow-Headers', 'Origin, Authorization, X-Requested-With, Content-Type, Accept');
-  
-  //   if(req.method === 'OPTIONS') {
-  //     return res.sendStatus(200);
-  //   }
-  //   next();
-  // });
-  const corsOptions = {
+// server.use((req, res, next) => {
+//   // res.setHeader('Access-Control-Allow-Origin', '*');
+//   // res.setHeader('Access-Control-Allow-Methods', 'OPTIONS, GET, POST, PUT, PATCH, DELETE');
+//   // res.setHeader('Access-Control-Allow-Headers', 'Origin, Authorization, X-Requested-With, Content-Type, Accept');
+
+//   if(req.method === 'OPTIONS') {
+//     return res.sendStatus(200);
+//   }
+//   next();
+// });
+
+// [ Cookie Base ]
+const corsOptions = {
   origin: `${ graphQLServer.graphqlPath }`,
   credentials: true // <-- REQUIRED backend setting
 };
-
-  server.use(cors(corsOptions));
-
+server.use(cors(corsOptions));
 
 // app.prepare ==> preparing Express Server in "app"'s callback
 app.prepare()

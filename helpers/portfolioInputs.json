@@ -1,0 +1,35 @@
+[
+    {
+        "type": "text",
+        "name": "title"
+    }, 
+    {
+        "type": "text",
+        "name": "company"
+    }, 
+    {
+        "type": "text",
+        "name": "location"
+    }, 
+    {
+        "type": "text",
+        "name": "position"
+    }, 
+    {
+        "type": "textarea",
+        "name": "description"
+    }, 
+    {   
+        "date": true,
+        "name": "startDate"
+    }, 
+    {
+        "date": true,
+        "name": "endDate"
+    },
+    {   
+        "date": "true",
+        "type": "checkbox",
+        "name": "present"
+    }
+]

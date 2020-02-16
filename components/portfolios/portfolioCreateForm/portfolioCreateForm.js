@@ -3,6 +3,7 @@ import { Formik, Form, Field } from 'formik';
 
 import PortFolioInputs from '../../form/portfolioInputs';
 import PortfolioDate from '../../form/portfolioDate';
+import PORTFOLIO_INPUTS from '../../../helpers/portfolioInputs.json';
 
 const portfolioFields = {
     title: '',
@@ -14,92 +15,10 @@ const portfolioFields = {
     endDate: ''
 };
 
-// const validateInputs = values => {
-//     let errors = {};
-
-//     // [IMPORTANT - New object to Array!!! ]
-//     // console.log('Should know this: ', Object.entries(values));
-//     /* 
-//         [ Outside Array ]
-//         [
-//             [Nested Array]
-//             Key and Vaue in an array
-//             0: (2) ["title", ""]
-//             1: (2) ["company", ""]
-//             2: (2) ["location", ""]
-//             3: (2) ["position", ""]
-//             4: (2) ["description", ""]
-//             5: (2) ["startDate", ""]
-//             6: (2) ["endDate", ""]
-//         ]
-//      */
-    
-//     // Object.entries(values).forEach(([key, value])=> {
-//     //     console.log('key: ', key, 'value: ', value)
-//     // })
-
-
-//     // [ IMPORTANT ]
-//     // object to array only with keys
-//     Object.keys(values)
-//         .forEach(valueKey => {
-//             if(!values[valueKey]) {
-//                 errors[valueKey] = `${valueKey} is Required.`
-//             }
-//         });
-
-//     if(endDateTime) {
-//         const startDate = values.startDate;
-//         const endDate = values.endDate;
-//         if(startDate && endDate && !startDate.isBefore(endDate)) {
-//             errors['endDate'] = "end date cannot before start date!";
-//         }   
-//     }
-
-//     return errors;
-// };
-
-const PORTFOLIO_INPUTS = [
-    {
-        type: 'text',
-        name: 'title'
-    }, 
-    {
-        type: 'text',
-        name: 'company'
-    }, 
-    {
-        type: 'text',
-        name: 'location'
-    }, 
-    {
-        type: 'text',
-        name: 'position'
-    }, 
-    {
-        type: 'textarea',
-        name: 'description'
-    }, 
-    {   
-        date: true,
-        name: 'startDate'
-    }, 
-    {
-        date: true,
-        name: 'endDate'
-    },
-    {   
-        date: true,
-        type: 'checkbox',
-        name: 'present'
-    }
-];
-
 const PortfolioCreateForm = props => {
+
     const [ endDateTime, setEndDateTime ] = useState(true);
-
     const validateInputs = inputValues => {
-
         let errors = {};
         const { endDate, ...noA } = inputValues;
         const values = endDateTime ? inputValues : noA;
@@ -166,16 +85,17 @@ const PortfolioCreateForm = props => {
         <Formik
             initialValues={ portfolioFields }
             validate={ validateInputs }
-            onSubmit={ (values, { setSubmitting }) => {
-                console.log('values: ', typeof values.startDate)
+            onSubmit={ (values, { setSubmitting, resetForm }) => {
                 if(!endDateTime) { values.endDate = undefined }
-                props.savePortfolio(values);
-                setSubmitting(false);
+                props.savePortfolio(values, { setSubmitting });
+                resetForm();
+                // setSubmitting(false);
             }}
         >
-            { ({ isSubmitting, values }) => (
+            {({ isSubmitting }) => (
                 <Form className="sport__create__form">
                     { renderInputField() }
+                    <div className="sport__create__form--error">{ props.errorMessage }</div>
                     <button className="sbtn" type="submit" disabled={ isSubmitting }>
                         Create Profile
                     </button>    
@@ -186,6 +106,59 @@ const PortfolioCreateForm = props => {
 }
 
 export default PortfolioCreateForm;
+
+
+
+
+
+
+
+// [Validation Reference]
+// const validateInputs = values => {
+//     let errors = {};
+
+//     // [IMPORTANT - New object to Array!!! ]
+//     // console.log('Should know this: ', Object.entries(values));
+//     /* 
+//         [ Outside Array ]
+//         [
+//             [Nested Array]
+//             Key and Vaue in an array
+//             0: (2) ["title", ""]
+//             1: (2) ["company", ""]
+//             2: (2) ["location", ""]
+//             3: (2) ["position", ""]
+//             4: (2) ["description", ""]
+//             5: (2) ["startDate", ""]
+//             6: (2) ["endDate", ""]
+//         ]
+//      */
+    
+//     // Object.entries(values).forEach(([key, value])=> {
+//     //     console.log('key: ', key, 'value: ', value)
+//     // })
+
+
+//     // [ IMPORTANT ]
+//     // object to array only with keys
+//     Object.keys(values)
+//         .forEach(valueKey => {
+//             if(!values[valueKey]) {
+//                 errors[valueKey] = `${valueKey} is Required.`
+//             }
+//         });
+
+//     if(endDateTime) {
+//         const startDate = values.startDate;
+//         const endDate = values.endDate;
+//         if(startDate && endDate && !startDate.isBefore(endDate)) {
+//             errors['endDate'] = "end date cannot before start date!";
+//         }   
+//     }
+
+//     return errors;
+// };
+
 
 // [ Formik 1]
 // const PortforlioCreateForm = () => (

@@ -8,7 +8,7 @@ const portfolioSchema = new Schema({
     location: { type: String, required: true, maxLength: 128 },
     position: { type: String, required: true, maxLength: 256 },
     description: { type: String, required: true, maxLength: 2048 },
-    startDate: { type: Date },
+    startDate: { type: Date, required: true },
     endDate: { type: Date }
 });
 

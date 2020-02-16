@@ -5,7 +5,6 @@ const { checkJWTWithApollo, checkRoleWithApollo } = require('../../../services/a
 
 const Mutations = {
     createPortfolio: async (parent, { data }, { req }, info) => {      
-        
         try {
 
             checkJWTWithApollo(req);
@@ -37,7 +36,6 @@ const Mutations = {
         }    
     },
     updatePortfolio: async (parent, { data }, { req }, info) => {
-        
         try {
             checkJWTWithApollo(req);
             const isValidAuthorization = checkRoleWithApollo('app owner', req);
@@ -67,7 +65,7 @@ const Mutations = {
             throw new Error(e);
         }
     },
-    deletePortfolio: async (parent, { data }, { req }, info) => {
+    deletePortfolio: async (parent, { _id }, { req }, info) => {
         
         try {
             checkJWTWithApollo(req);
@@ -88,9 +86,8 @@ const Mutations = {
             if(!deletedPortfolio) {
                 throw new Error('Failed to delete this portfolio.');
             }
-            return {
-               message: `Successfully delete your ${ portfolio.title }`
-            }
+            return `Successfully delete your ${ portfolio.title }`;
+            
         } catch(e) {
             throw new Error(e);
         }   

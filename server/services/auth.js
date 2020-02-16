@@ -46,6 +46,7 @@ exports.checkJWT = jwt({
 });
 
 
+// [ headers.cookie base]
 const getCookieFromReqHeader = (req, cookieInfo) => {
     try {
         if(req.headers.cookie) {
@@ -121,7 +122,7 @@ exports.checkRole = role => (req, res, next) => {
     // Thanks to the middleware above,
     //  we can get req.user automatically.
     //  [ IMPORTANT ] It is why jwt-expresss is useful! 
-    console.log('req.user: ', req.user)
+    // console.log('req.user: ', req.user)
     const user = req.user;
     if(user && user[`${namespace}role`] === role) {
         next();
