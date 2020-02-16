@@ -14,30 +14,29 @@ class Portfolio extends React.Component {
     return { portfolioId };
   }
 
-  componentDidMount = () => {
-    console.log('lllllllllllllllll', this.props.pageProps.portfolioId);
-  }
-
   render () {
-    // const { portfolio } = this.props;
-    console.log('this.props: ', this.props)
-    return(
-      <div>Testing</div>
+    const { portfolio } = this.props.data;
+    if(!portfolio) {
+      return <div />;
+    }
+
+    return (
+      <BaseLayout { ...this.props.auth }>
+        <BasePage title="Portfolio">
+          <h1> {portfolio.title} </h1>
+          <p> BODY: {portfolio.position} </p>
+          <p> ID:  {portfolio._id} </p>
+        </BasePage>
+      </BaseLayout>
     )
-    // return (
-    //   <BaseLayout { ...this.props.auth }>
-    //     <BasePage title="Portfolios">
-    //       <h1> {portfolio.title} </h1>
-    //       <p> BODY: {portfolio.body} </p>
-    //       <p> ID:  {portfolio.id} </p>
-    //     </BasePage>
-    //   </BaseLayout>
-    // )
   }
 }
 
 export default withAuth('app owner')(
-  graphql(fetchPortfolio)(
+  graphql(fetchPortfolio, {
+    options: (props) => {
+        return { variables: { _id: props.pageProps.portfolioId || '' }}}
+  })(
     withRouter(Portfolio)
   )
 );
