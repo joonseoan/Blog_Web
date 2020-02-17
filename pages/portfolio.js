@@ -18,6 +18,8 @@ class Portfolio extends React.Component {
   render () {    
     const { portfolio, auth } = this.props;
 
+    console.log('portfolio: ', portfolio)
+
     if(!portfolio) {
       return <div />;
     }

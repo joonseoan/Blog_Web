@@ -21,6 +21,7 @@ class Portfolios extends React.Component {
 
   renderPosts = () => {
     const { portfolios } = this.props.data;
+    console.log('portfolios --> ', portfolios)
     return portfolios.map((portfolio, index) => {
       return (
         <Col md="4" key={index}>

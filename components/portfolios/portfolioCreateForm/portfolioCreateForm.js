@@ -11,13 +11,17 @@ const portfolioFields = {
     location: '',
     position: '',
     description: '',
-    startDate: '',
-    endDate: ''
+    startDate: null,
+    endDate: null
 };
 
-const PortfolioCreateForm = props => {
+const PortfolioCreateForm = ({ savedPortfolio, savePortfolio, errorMessage }) => {
 
-    const [ endDateTime, setEndDateTime ] = useState(true);
+    const existEndTime = savedPortfolio && 
+        (savedPortfolio.endDate ? true : false);
+    
+    const [ endDateTime, setEndDateTime ] = useState(existEndTime);
+
     const validateInputs = inputValues => {
         let errors = {};
         const { endDate, ...noA } = inputValues;
@@ -83,34 +87,31 @@ const PortfolioCreateForm = props => {
             
     return (
         <Formik
-            initialValues={ portfolioFields }
+            initialValues={ savedPortfolio || portfolioFields }
             validate={ validateInputs }
             onSubmit={ (values, { setSubmitting, resetForm }) => {
                 if(!endDateTime) { values.endDate = undefined }
-                props.savePortfolio(values, { setSubmitting });
+                savePortfolio(values, { setSubmitting });
                 resetForm();
                 // setSubmitting(false);
             }}
         >
-            {({ isSubmitting }) => (
-                <Form className="sport__create__form">
-                    { renderInputField() }
-                    <div className="sport__create__form--error">{ props.errorMessage }</div>
-                    <button className="sbtn" type="submit" disabled={ isSubmitting }>
-                        Create Profile
-                    </button>    
-                </Form>
-            )}
+            {({ isSubmitting }) => {
+                
+                return(
+                    <Form className="sport__create__form">
+                        { renderInputField() }
+                        <div className="sport__create__form--error">{ errorMessage }</div>
+                        <button className="sbtn" type="submit" disabled={ isSubmitting }>
+                            Create Profile
+                        </button>    
+                    </Form>
+            )}}
         </Formik>
     );
 }
 
 export default PortfolioCreateForm;
-
-
-
-
-
 
 
 // [Validation Reference]

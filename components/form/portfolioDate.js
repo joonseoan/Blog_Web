@@ -18,7 +18,13 @@ export default class PortfolioDate extends Component {
         isPresentJob: false 
     };
 
+    // static getDerivedStateFromProps (props, state) {
+    //     if(props.)
+    //     return null;
+    // }
+
     handleChange = (date, { setFieldValue, setFieldTouched, name }) => {
+        console.log('date in handleChange: ', date)
         /* 
             // [ Use Formik only. Then, commented out ]
             // When use Lib like the one, DatePicker below,
@@ -70,6 +76,8 @@ export default class PortfolioDate extends Component {
             label,
             type
         } = this.props;
+
+        console.log('values.startDate', values.startDate)
 
         return (
 

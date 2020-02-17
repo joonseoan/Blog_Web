@@ -10,6 +10,8 @@ export default gql`
             location
             position
             description
+            startDate
+            endDate
         }
     }
 `;
