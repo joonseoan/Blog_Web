@@ -1,43 +1,72 @@
 import React from 'react';
+import { connect } from 'react-redux';
 import BaseLayout from '../components/layouts/BaseLayout';
 import BasePage from '../components/BasePage';
 import { withRouter } from 'next/router'
 import axios from 'axios';
 import withAuth from '../components/hoc/withAuth';
-import fetchPortfolio from '../graphql/queries/portfolio.queries';
-import { graphql } from 'react-apollo';
 import { Router } from '../routes';
+// import { getPortfolio } from '../actions/';
 
 class Portfolio extends React.Component {
-  static async getInitialProps({ query }) {
-    const portfolioId = query.id;
-    return { portfolioId };
+
+  renderPortfolioEdit = () => {
+    const { _id } = this.props.portfolio;
+    Router.pushRoute(`/portfolio/${ _id }/edit`);
   }
 
-  render () {
-    const { portfolio } = this.props.data;
-    
+  render () {    
+    const { portfolio, auth } = this.props;
+
     if(!portfolio) {
       return <div />;
     }
 
     return (
-      <BaseLayout { ...this.props.auth }>
+      <BaseLayout { ...auth }>
         <BasePage title="Portfolio">
           <h1> {portfolio.title} </h1>
           <p> BODY: {portfolio.position} </p>
           <p> ID:  {portfolio._id} </p>
+          <button onClick={ this.renderPortfolioEdit }>EDIT PORTFOLIO</button>
         </BasePage>
       </BaseLayout>
     )
   }
 }
 
-export default withAuth('app owner')(
-  graphql(fetchPortfolio, {
-    options: (props) => {
-        return { variables: { _id: props.pageProps.portfolioId || '' }}}
-  })(
-    withRouter(Portfolio)
-  )
-);
+const mapStateToProps = ( { portfolio }) => ({ portfolio });
+
+//  [ IMPORTANT !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!]
+// must use withRouter to use "connect" of Redux
+export default withRouter(
+  connect(mapStateToProps)(Portfolio)
+)
+
+
+
+// [ IMPORTANT ]
+// const mapStateToProps = ({ portfolio }) => {
+//   console.log('portfolio:---> ', portfolio)
+//   return {
+//     portfolio
+//   };
+// }
+
+// [ With Server Side GraphQL Query ]
+// export default withAuth('app owner')(
+//     connect(mapStateToProps, { getPortfolio })(Portfolio)
+// );
+
+// export default withAuth('app owner')(Portfolio);
+
+// [ With Pure Graphql in Client Side ]
+// export default withAuth('app owner')(
+//   graphql(fetchPortfolio, {
+//     options: props => {
+//       const { portfolioId } = props.pageProps
+//         return { variables: { _id: portfolioId || '' }}}
+//   })(
+//     withRouter(Portfolio)
+//   )
+// );

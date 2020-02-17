@@ -70,8 +70,8 @@ export default props => {
             </NavItem>
              <NavItem className="port-navbar-item">
               <BsNavLink 
-                route="/portfolio"
-                title="Portfolio"
+                route="/portfolios"
+                title="Portfolios"
               />
             </NavItem>
             <NavItem className="port-navbar-item">

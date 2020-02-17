@@ -1,38 +1,38 @@
 import React from 'react';
 import { Col, Row, Card, CardImg, CardBody, CardTitle, CardSubtitle, CardText, Button } from 'reactstrap'; 
+import { withRouter } from 'next/router';
+import { connect } from 'react-redux';
 import BaseLayout from '../components/layouts/BaseLayout';
 import BasePage from '../components/BasePage';
-import { Link } from '../routes';
-import { graphql } from 'react-apollo';
-import fetchPortfolios from '../graphql/queries/portfolios.queries'; 
+import { getPortfolios } from '../actions/';
+import { savePortfolio } from '../redux/reduxActions/';
 import { Router } from '../routes';
 
-import axios from 'axios';
-
 class Portfolios extends React.Component {
-
-  static async getInitialProps({ query }) {
-    return { query };
+  static async getInitialProps() {
+    const data = await getPortfolios();
+    return { ...data };
   }
 
-  renderPortfolio = _id => {
-    Router.pushRoute(`/portfolio/${ _id }`);
+  renderPortfolio = portfolio => {
+    const runRedirect = () => Router.pushRoute(`/portfolio/${ portfolio._id }`); 
+    this.props.savePortfolio(portfolio, runRedirect);
   }
 
-  renderPosts = posts => {
+  renderPosts = () => {
     const { portfolios } = this.props.data;
-    return portfolios.map((post, index) => {
+    return portfolios.map((portfolio, index) => {
       return (
         <Col md="4" key={index}>
           <React.Fragment>
             <span>
               <div 
-                onClick={ () => this.renderPortfolio(post._id) } 
+                onClick={ () => this.renderPortfolio(portfolio) } 
                 style={{ border: 'solid 1px'}}>
                 <CardBody>
-                  <CardTitle>{ post.title}</CardTitle>
-                  <CardSubtitle>{ post.position }</CardSubtitle>
-                  <CardText>{ post.description }</CardText>
+                  <CardTitle>{ portfolio.title}</CardTitle>
+                  <CardSubtitle>{ portfolio.position }</CardSubtitle>
+                  <CardText>{ portfolio.description }</CardText>
                   <Button>Button</Button>
                 </CardBody>
               </div>
@@ -44,16 +44,16 @@ class Portfolios extends React.Component {
   }
 
   render() {
-    const { posts, data: { portfolios } } = this.props;
-    
-    if(!portfolios) return <div />
-    
+    if(!this.props.data) {
+      return <div />
+    }
+
     return (
       <BaseLayout { ...this.props.auth }>
         <BasePage className="portfolio-page" title="Portfolios">
             <ul>
               <Row>
-                { this.renderPosts(posts) }
+                { this.renderPosts() }
               </Row>
             </ul>
         </BasePage>
@@ -62,4 +62,13 @@ class Portfolios extends React.Component {
   }
 }
 
-export default graphql(fetchPortfolios)(Portfolios);
+//  [ IMPORTANT !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!]
+// must use withRouter to use "connect" of Redux
+export default withRouter(
+  connect(null, { savePortfolio })(Portfolios)
+) 
+
+// export default Portfolios;
+// export default graphql(fetchPortfolios)(
+//   connect(null, {savePortfolio})(Portfolios)
+// )

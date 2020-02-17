@@ -3,14 +3,26 @@ import Cookies from 'js-cookie';
 
 import { getCookieFromReq } from '../helpers/utils';
 
-// import { fetchPortfolios } from '../graphql/queries';
+// Apollo
+import apolloClient from '../graphql/apolloClient';
+import portfolio from '../graphql/queries/portfolio.queries';
+import portfolios from '../graphql/queries/portfolios.queries';
 
-// export const getPortfolios = async () => {
-//     const response = await fetchPortfolios();
-//     console.log('response: ', response)
-//     return response;
-// }
+// Auth unrequired
+export const getPortfolios = async () => {
+    try {
+        const client = apolloClient();
+        const response = await client.query({ query: portfolios });
+        if(!response || response.length < 1) {
+            throw new Error('Unable to fetch portfolio list');
+        }
+        return response;
+    } catch(e) {
+        throw new Error(e);
+    }
+}
 
+// Auth Required
 export const setAuthHeader = req => {
     let token;
 
@@ -27,13 +39,32 @@ export const getSecretData = async req => {
     try {
         const url = req ? 'http://localhost:3000/api/v1/secret' : '/api/v1/secret';
         const token = this.setAuthHeader(req || null); 
-    
         const response = await axios.get(url, {
             headers: { 
                 'authorization': token ? `Bearer ${token}` : ''
             }
         });
+
         return response.data;
+    } catch(e) {
+        throw new Error(e);
+    }
+}
+
+export const getPortfolio = async (_id, req) => {
+    try {        
+        const token = setAuthHeader(req || null);
+        const client = apolloClient(token);
+
+        const { data } = await client.query({ 
+            query: portfolio, 
+            variables: { _id }
+        });
+
+        if(!data) {
+            throw new Error('Unable to get a portfolio.');
+        }
+        return data;
     } catch(e) {
         throw new Error(e);
     }

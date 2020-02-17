@@ -1,11 +1,15 @@
 import React from 'react';
 import App, { Container } from 'next/app';
-import { ApolloClient } from 'apollo-client';
 import { ApolloProvider } from 'react-apollo';
-import { createHttpLink } from 'apollo-link-http';
-import { InMemoryCache } from 'apollo-cache-inmemory';
-import fetch from 'isomorphic-unfetch';
-import { getCookieFromReq } from '../helpers/utils';
+import { Provider } from 'react-redux';
+// import { createStore, applyMiddleware, compose } from 'redux';
+// import reduxThunk from 'redux-thunk';
+
+import auth0Client from '../services/auth0';
+import apolloClient from '../graphql/apolloClient';
+import reduxStore from '../redux/reduxStore';
+// import reducers from '../reducers/';
+
 // Stylings
 import 'bootstrap/dist/css/bootstrap.min.css';
 
@@ -15,19 +19,8 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 //  We can change the order
 // !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 import '../styles/main.scss';
-import auth0Client from '../services/auth0';
 
-// [ Cookie base]
-const link = createHttpLink({
-  uri: process.browser ? 'http://localhost:3000/graphql' : '/graphql',
-  credentials: 'include'
-});
-
-const client = new ApolloClient({
-  fetch,
-  cache: new InMemoryCache(),
-  link,
-});
+// const store = createStore(reducers, applyMiddleware(reduxThunk));
 
 class MyApp extends App {
 
@@ -81,7 +74,6 @@ class MyApp extends App {
       if (Component.getInitialProps) {
         pageProps = await Component.getInitialProps(ctx)
       }
-
       return { pageProps, auth };  
   }
 
@@ -94,8 +86,10 @@ class MyApp extends App {
     // enclosing current page's props
     return (
       <Container>
-        <ApolloProvider client={ client }>
+        <ApolloProvider client={ apolloClient() }>
+          <Provider store={ reduxStore }>
             <Component { ...pageProps } auth={ auth } />
+          </Provider>
         </ApolloProvider>
       </Container>
     );

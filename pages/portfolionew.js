@@ -3,7 +3,7 @@ import React from 'react';
 
 import BaseLayout from '../components/layouts/BaseLayout';
 import BasePage from '../components/BasePage';
-import PortforlioCreateForm from '../components/portfolios/portfolioCreateForm/portfolioCreateForm';
+import PortforlioForm from '../components/portfolios/portfolioCreateForm/portfolioCreateForm';
 import withAuth from '../components/hoc/withAuth';
 import { graphql } from 'react-apollo';
 import portfolioCreate from '../graphql/mutations/portfolioCreate';
@@ -58,7 +58,7 @@ class PortfolioNew extends React.Component {
                     */}
                     <div className="sport">
                         <div className="sport__create">
-                            <PortforlioCreateForm 
+                            <PortforlioForm 
                                 savePortfolio={ this.savePortfolio }
                                 errorMessage={ this.state.errorMessage }
                             />

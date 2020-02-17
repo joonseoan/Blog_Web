@@ -46,6 +46,7 @@ exports.checkJWT = jwt({
 });
 
 
+
 // [ headers.cookie base]
 const getCookieFromReqHeader = (req, cookieInfo) => {
     try {
@@ -67,10 +68,19 @@ const getCookieFromReqHeader = (req, cookieInfo) => {
 
 exports.checkJWTWithApollo = req => {
     try {
-        const token = getCookieFromReqHeader(req, 'jwt');
+        const cookieToken = getCookieFromReqHeader(req, 'jwt');
+        let authToken = '';
+        if(req.headers.authorization) {
+            authToken = req.headers.authorization.split(' ')[1];
+        }
+        // const [ bearer, authToken ] = ;
+        const token = cookieToken || authToken;
+
         if(!token) {
             throw new Error('Unable to get token')
         }
+        
+        // const token = getCookieFromReqHeader(req, 'jwt');
         const user = jsonwebtoken.decode(token);
 
         if(!user) {
