@@ -26,9 +26,21 @@ const Queries = {
             }
 
             const portfolio = await Portfolio.findById(_id);
+            console.log('portfolio: ', portfolio)
+            
+            /* 
+                [ IMPORTANT ]
+                When we want to not select the specific field or property,
+                we can make out like this
+                const portfolio = await Portfolio.findById(data._id)
+                    .select('-firstName') // must put "-""
+                    .exec(err, portfolio)
+            */
+
             if(!portfolio) {
                 throw new Error('Unable to find the portfolio.');
             }
+
             return portfolio;
         } catch(e) {
             throw new Error(e);

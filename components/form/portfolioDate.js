@@ -18,10 +18,14 @@ export default class PortfolioDate extends Component {
         isPresentJob: false 
     };
 
-    // static getDerivedStateFromProps (props, state) {
-    //     if(props.)
-    //     return null;
-    // }
+    static getDerivedStateFromProps (nextProps, prevState) {        
+        if(nextProps.form.values.startDate) {
+            if(!nextProps.endDateTime) {
+                return { isPresentJob: !nextProps.endDateTime };
+            }
+        }
+        return null;
+    }
 
     handleChange = (date, { setFieldValue, setFieldTouched, name }) => {
         console.log('date in handleChange: ', date)
@@ -51,7 +55,7 @@ export default class PortfolioDate extends Component {
     }
 
     // not going to Formik Validation
-    handleEndDateChange = (e, values, name) => {
+    handleEndDateChange = (values, name) => {
         this.props.getCheckValue(!this.state.isPresentJob);
 
         // const { name, checked } = e.target;
@@ -77,8 +81,6 @@ export default class PortfolioDate extends Component {
             type
         } = this.props;
 
-        console.log('values.startDate', values.startDate)
-
         return (
 
             <Fragment>
@@ -95,29 +97,27 @@ export default class PortfolioDate extends Component {
                         id={ name } 
                         type={ type } 
                         name={ name } 
-                        value={ values[ name ] }
-                        onChange={ e => this.handleEndDateChange(e, values, name) }
+                        checked={ this.state.isPresentJob }
+                        onChange={ () => this.handleEndDateChange(values, name) }
                     />) :
-                    (
-                        <DatePicker
-                            className="sform-group__input"                       
-                            selected={ values[ name ] || null }
-                            onChange={ date => this.handleChange(date, { 
-                                setFieldValue, setFieldTouched, name 
-                            })}
-                            // ???
-                            peekNextMonth
-                            showMonthDropdown
-                            showYearDropdown
-                            // for future plans
-                            // minDate={ moment() }
-                            
-                            // for birth dacy check
-                            // for carrier or experiences
-                            maxDate={ moment() }
-                            dropDownMode="select"
-                        /> 
-                    )
+                    (<DatePicker
+                        className="sform-group__input"                       
+                        selected={ values[ name ] || null }
+                        onChange={ date => this.handleChange(date, { 
+                            setFieldValue, setFieldTouched, name 
+                        })}
+                        // ???
+                        peekNextMonth
+                        showMonthDropdown
+                        showYearDropdown
+                        // for future plans
+                        // minDate={ moment() }
+                        
+                        // for birth dacy check
+                        // for carrier or experiences
+                        maxDate={ moment() }
+                        dropDownMode="select"
+                    /> )
                 }
                 {
                     (!type && touched[ name ] && errors[ name ]) && <div className="sform-group__error error">

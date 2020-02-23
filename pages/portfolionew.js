@@ -16,7 +16,7 @@ class PortfolioNew extends React.Component {
         errorMessage: ''
     }
 
-    savePortfolio = async (portfolioData, { setSubmitting } ) => {
+    handleSavePortfolio = async (portfolioData, setSubmitting) => {
         // submitting status
         setSubmitting(true);
         try {
@@ -27,14 +27,14 @@ class PortfolioNew extends React.Component {
             if(!newPortfolio) {
                 throw new Error('Unable to create a new portfolio.');
             }
+            
             setSubmitting(false);
             // [IMPORTANT: a way to use route ]
-            if(!this.state.errorMessage) {
-                // [ when using routes.js customized ]
-                Router.pushRoute('/portfolios');
-                // [ When using "withRouter"]
-                // this.props.router.push('/portfolios');
-            }
+            // [ when using routes.js customized ]
+            Router.pushRoute('/portfolios');
+            
+            // [ When using "withRouter"]
+            // this.props.router.push('/portfolios');
         } catch(e) {
             setSubmitting(false);
             this.setState({ errorMessage: 'Sorry, unexpected error occured.'})
@@ -59,7 +59,7 @@ class PortfolioNew extends React.Component {
                     <div className="sport">
                         <div className="sport__create">
                             <PortforlioForm 
-                                savePortfolio={ this.savePortfolio }
+                                handleSavePortfolio={ this.handleSavePortfolio }
                                 errorMessage={ this.state.errorMessage }
                             />
                         </div>

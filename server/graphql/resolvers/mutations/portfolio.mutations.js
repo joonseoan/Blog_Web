@@ -37,6 +37,7 @@ const Mutations = {
     },
     updatePortfolio: async (parent, { data }, { req }, info) => {
         try {
+
             checkJWTWithApollo(req);
             const isValidAuthorization = checkRoleWithApollo('app owner', req);
             if(!isValidAuthorization) {
@@ -44,7 +45,7 @@ const Mutations = {
             }
 
             const portfolio = await Portfolio.findById(data._id);
-
+            
             if(!portfolio) {
                 throw new Error('Unable to find your portfolio');
             }
@@ -53,8 +54,12 @@ const Mutations = {
                 throw new Error('You are not authorized to access to this portfolio.')
             }
 
+
+            // console.log('data: =========>', data)
             portfolio.set(data);
+            
             const savedPortfolio = await portfolio.save();
+            
             if(!savedPortfolio) {
                 throw new Error('Failed to update an updated portfolio.')
             }
@@ -74,7 +79,7 @@ const Mutations = {
                 throw new Error('You are not authorized for this page');
             }
 
-            const portfolio = await Portfolio.findById(data._id);
+            const portfolio = await Portfolio.findById(_id);
             if(!portfolio) {
                 throw new Error('Unable to find the portfolio.');
             }
@@ -82,7 +87,7 @@ const Mutations = {
                 throw new Error('You are not authorized to delete this portfolio.');
             }
 
-            const deletedPortfolio = await Portfolio.deleteOne({ _id: data._id });
+            const deletedPortfolio = await Portfolio.deleteOne({ _id });
             if(!deletedPortfolio) {
                 throw new Error('Failed to delete this portfolio.');
             }

@@ -15,13 +15,19 @@ const portfolioFields = {
     endDate: null
 };
 
-const PortfolioCreateForm = ({ savedPortfolio, savePortfolio, errorMessage }) => {
-
-    const existEndTime = savedPortfolio && 
-        (savedPortfolio.endDate ? true : false);
+const PortfolioCreateForm = ({ handleSavePortfolio, errorMessage, 
+                               handleUpdatePortfolio, savedPortfolio }) => {
     
-    const [ endDateTime, setEndDateTime ] = useState(existEndTime);
-
+    let existEndTime;
+    if(savedPortfolio) {
+        existEndTime = (savedPortfolio && 
+                        savedPortfolio.startDate &&
+                        savedPortfolio.endDate) ? true : false;
+    }
+    
+    const [ endDateTime, setEndDateTime ] = 
+        useState(existEndTime === undefined ? true : existEndTime);
+    
     const validateInputs = inputValues => {
         let errors = {};
         const { endDate, ...noA } = inputValues;
@@ -69,7 +75,7 @@ const PortfolioCreateForm = ({ savedPortfolio, savePortfolio, errorMessage }) =>
                 return(
                     <div key={ index } 
                         className={`${input.name === "present" ? "sform-group-present" : "sform-group-date"}`} 
-                        style={{ display: (input.name === 'endDate' && !endDateTime) && 'none' }}                        
+                        style={{ display: (input.name.toString() === "endDate" && !endDateTime) && "none" }}                        
                     >
                         <Field
                             key={ index }
@@ -77,6 +83,7 @@ const PortfolioCreateForm = ({ savedPortfolio, savePortfolio, errorMessage }) =>
                             label={ input.name }
                             name={ input.name }
                             getCheckValue={ input.name ? value => setEndDateTime(!value) : undefined }
+                            endDateTime = { endDateTime }
                             component={ PortfolioDate }
                         />
                     </div>
@@ -90,20 +97,23 @@ const PortfolioCreateForm = ({ savedPortfolio, savePortfolio, errorMessage }) =>
             initialValues={ savedPortfolio || portfolioFields }
             validate={ validateInputs }
             onSubmit={ (values, { setSubmitting, resetForm }) => {
-                if(!endDateTime) { values.endDate = undefined }
-                savePortfolio(values, { setSubmitting });
+                if(!endDateTime) { values.endDate = null }
+                if(!savedPortfolio) {
+                    handleSavePortfolio(values, setSubmitting);
+                } else {
+                    handleUpdatePortfolio(values, setSubmitting);
+                }
                 resetForm();
                 // setSubmitting(false);
             }}
         >
-            {({ isSubmitting }) => {
-                
+            {({ isSubmitting, values }) => {
                 return(
                     <Form className="sport__create__form">
                         { renderInputField() }
                         <div className="sport__create__form--error">{ errorMessage }</div>
                         <button className="sbtn" type="submit" disabled={ isSubmitting }>
-                            Create Profile
+                            { !savedPortfolio ? "Create Profile" : "Update Profile" }
                         </button>    
                     </Form>
             )}}

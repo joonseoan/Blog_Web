@@ -28,7 +28,7 @@
         "name": "endDate"
     },
     {   
-        "date": "true",
+        "date": true,
         "type": "checkbox",
         "name": "present"
     }

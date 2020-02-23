@@ -9,28 +9,59 @@ import BasePage from '../components/BasePage';
 import PortforlioForm from '../components/portfolios/portfolioCreateForm/portfolioCreateForm';
 import withAuth from '../components/hoc/withAuth';
 import { Router } from '../routes';
+import updatePortfolio from  '../graphql/mutations/portfolioUpdate';
 
 class PortfolioEdit extends React.Component {
+    state = {
+        errorMessage: ''
+    }
+
+    handleUpdatePortfolio = async (portpolioData, setSubmitting) => {
+        try {
+          setSubmitting(true);
+          const updatedPortfolio = await this.props.mutate({
+              variables: portpolioData
+          });
+
+          if(!updatedPortfolio) {
+              throw new Error('Unable to update the portfolio.');
+          }
+
+          setSubmitting(false);
+
+          Router.pushRoute('/portfolios');
+
+        } catch(e) {
+            setSubmitting(false);
+            this.setState({ errorMessage: 'Sorry, unexpected error occured.'})
+            throw new Error(e);
+        }
+    }
+
     render() {
-        if(!this.props.portfolio) {
+        const { portfolio, auth } = this.props;
+
+        if(!portfolio) {
             return <div />;
         }
 
-        const { startDate, endDate } = this.props.portfolio;
+        const { startDate, endDate } = portfolio;
 
-        const data = {
-            ...this.props.portfolio, 
+        const existingPortfolio = {
+            ...portfolio, 
             startDate: moment(startDate),
             endDate: endDate ? moment(endDate) : undefined
         }
         
         return (
-            <BaseLayout { ...this.props.auth }>
-                <BasePage title="Edit Portfolio">
+            <BaseLayout { ...auth }>
+                <BasePage title="EDIT PORTFOLIO">
                     <div>
                         <div>
                             <PortforlioForm
-                                savedPortfolio={ data }
+                                savedPortfolio={ existingPortfolio }
+                                handleUpdatePortfolio={ this.handleUpdatePortfolio }
+                                errorMessage={ this.state.errorMessage }
                             />
                         </div>
                         <div>
@@ -47,6 +78,8 @@ const mapStateToProps = ({ portfolio }) => ({ portfolio });
 
 export default withRouter(
     withAuth('app owner')(
-        connect(mapStateToProps)(PortfolioEdit)
+        connect(mapStateToProps)(
+            graphql(updatePortfolio)(PortfolioEdit)
+        )
     )
 );
