@@ -7,23 +7,24 @@ import { graphql } from 'react-apollo';
 import BaseLayout from '../components/layouts/BaseLayout';
 import BasePage from '../components/BasePage';
 import { getPortfolios } from '../actions/';
-import { savePortfolio } from '../redux/reduxActions/';
+import { savePortfolios } from '../redux/reduxActions/';
 import { Router } from '../routes';
 import deletePortfolio from '../graphql/mutations/portpolioDelete';
 
 class Portfolios extends React.Component {
-  static async getInitialProps() {
-    try {
-      const data = await getPortfolios();
-      return { ...data };
-    } catch(e) {
-      throw new Error(e)
-    }
+
+  static getInitialProps = async () => {
+    const { data: { portfolios }} = await getPortfolios();
+    return { portfolios };
   }
 
+  componentDidMount = async () => {
+    const { portfolios } = this.props;
+    this.props.savePortfolios(portfolios);
+  }
+  
   handleRenderPortfolio = portfolio => {
-    const runRedirect = () => Router.pushRoute(`/portfolio/${ portfolio._id }`); 
-    this.props.savePortfolio(portfolio, runRedirect);
+    Router.pushRoute(`/portfolio/${portfolio._id}`);
   }
 
   handleDeletePortfolio = async _id => {
@@ -35,14 +36,24 @@ class Portfolios extends React.Component {
         throw new Error('Unable to delete the portfolio.')
       }
 
+      // 2) By using Redux // faster
+      const { data: { portfolios }} = await getPortfolios();
+      this.props.savePortfolios(portfolios);
+
+      // 1) By using Refreshing
+      // Refreshing!!! -----> Not better way.
+      // Lets use Redux
+      // Router.pushRoute('/portfolios');
+
     } catch(e) {
       throw new Error(e);
     }
   }
 
   renderPosts = () => {
-    const { portfolios } = this.props.data;
-    return portfolios.map((portfolio, index) => {
+    const { refreshedPortfolio } = this.props;
+    
+    return refreshedPortfolio.map((portfolio, index) => {
       return (
         <Col md="4" key={index}>
           <React.Fragment>
@@ -65,14 +76,15 @@ class Portfolios extends React.Component {
   }
 
   render() {
+    const { refreshedPortfolio } = this.props;
     
-    if(!this.props.data) {
-      return <div />
+    if(!refreshedPortfolio && refreshedPortfolio.length < 1) {
+      return <div />;
     }
 
     return (
       <BaseLayout { ...this.props.auth }>
-        <BasePage className="portfolio-page" title="Portfolios">
+        <BasePage className="portfolio-page" title="YOUR PORTFOLIO LIST">
             <ul>
               <Row>
                 { this.renderPosts() }
@@ -84,13 +96,19 @@ class Portfolios extends React.Component {
   }
 }
 
+const mapStateToProps = ({ portfolios }) => {
+  return {
+    refreshedPortfolio: portfolios
+  }
+}  
+  
 //  [ IMPORTANT !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!]
 // must use withRouter to use "connect" of Redux
 export default withRouter(
-  connect(null, { savePortfolio })(
+  connect(mapStateToProps, { savePortfolios })(
     graphql(deletePortfolio)(Portfolios)
   )
-) 
+)
 
 // export default Portfolios;
 // export default graphql(fetchPortfolios)(

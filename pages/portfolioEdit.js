@@ -9,11 +9,23 @@ import BasePage from '../components/BasePage';
 import PortforlioForm from '../components/portfolios/portfolioCreateForm/portfolioCreateForm';
 import withAuth from '../components/hoc/withAuth';
 import { Router } from '../routes';
+import { getPortfolios } from '../actions';
+import { savePortfolios } from '../redux/reduxActions';
 import updatePortfolio from  '../graphql/mutations/portfolioUpdate';
 
 class PortfolioEdit extends React.Component {
+
     state = {
         errorMessage: ''
+    }
+
+    componentDidMount = async () => {
+        if(!this.props.portfolio) {
+            const { data: { portfolios }} = await getPortfolios();
+            this.props.savePortfolios(portfolios);
+        } else {
+            return;
+        }
     }
 
     handleUpdatePortfolio = async (portpolioData, setSubmitting) => {
@@ -74,11 +86,18 @@ class PortfolioEdit extends React.Component {
     }
 }
 
-const mapStateToProps = ({ portfolio }) => ({ portfolio });
+const mapStateToProps = ({ portfolios }, ownProps) => {
+    const portfolio = portfolios.find(portfolio => 
+            portfolio._id === ownProps.router.query.id);
+    
+    return{ 
+        portfolio
+    };
+}
 
 export default withRouter(
     withAuth('app owner')(
-        connect(mapStateToProps)(
+        connect(mapStateToProps, { savePortfolios })(
             graphql(updatePortfolio)(PortfolioEdit)
         )
     )

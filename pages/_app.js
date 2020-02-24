@@ -2,13 +2,10 @@ import React from 'react';
 import App, { Container } from 'next/app';
 import { ApolloProvider } from 'react-apollo';
 import { Provider } from 'react-redux';
-// import { createStore, applyMiddleware, compose } from 'redux';
-// import reduxThunk from 'redux-thunk';
 
 import auth0Client from '../services/auth0';
 import apolloClient from '../graphql/apolloClient';
 import reduxStore from '../redux/reduxStore';
-// import reducers from '../reducers/';
 
 // Stylings
 import 'bootstrap/dist/css/bootstrap.min.css';
@@ -64,7 +61,7 @@ class MyApp extends App {
       // if(!user) {
       //   throw new Error('Unable to the current user.')
       // }
-
+      
       // default: when user is not avialble : false
       // then back to true when the user is avaialble
       // https://medium.com/better-programming/javascript-bang-bang-i-shot-you-down-use-of-double-bangs-in-javascript-7c9d94446054
@@ -74,6 +71,7 @@ class MyApp extends App {
       if (Component.getInitialProps) {
         pageProps = await Component.getInitialProps(ctx)
       }
+
       return { pageProps, auth };  
   }
 

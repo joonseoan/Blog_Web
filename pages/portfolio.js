@@ -6,9 +6,20 @@ import { withRouter } from 'next/router'
 import axios from 'axios';
 import withAuth from '../components/hoc/withAuth';
 import { Router } from '../routes';
-// import { getPortfolio } from '../actions/';
+import { getPortfolios } from '../actions/';
+import { savePortfolios } from '../redux/reduxActions';
 
 class Portfolio extends React.Component {
+
+  componentDidMount = async () => {
+    const { portfolio } = this.props;
+    if(!portfolio) {
+      const { data: { portfolios }} = await getPortfolios();
+      this.props.savePortfolios(portfolios);
+    } else {
+      return;
+    }   
+  }
 
   renderPortfolioEdit = () => {
     const { _id } = this.props.portfolio;
@@ -16,14 +27,12 @@ class Portfolio extends React.Component {
   }
 
   render () {    
-    const { portfolio, auth } = this.props;
-
-    console.log('portfolio: ', portfolio)
+    const { auth, portfolio } = this.props;
 
     if(!portfolio) {
       return <div />;
     }
-
+    
     return (
       <BaseLayout { ...auth }>
         <BasePage title="Portfolio">
@@ -37,12 +46,18 @@ class Portfolio extends React.Component {
   }
 }
 
-const mapStateToProps = ( { portfolio }) => ({ portfolio });
+const mapStateToProps = ({ portfolios }, ownProps) => {  
+  const portfolio = portfolios.find(portfolio => 
+          portfolio._id === ownProps.router.query.id);  
+
+  return { portfolio };
+  
+};
 
 //  [ IMPORTANT !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!]
 // must use withRouter to use "connect" of Redux
 export default withRouter(
-  connect(mapStateToProps)(Portfolio)
+  connect(mapStateToProps, { savePortfolios })(Portfolio)
 )
 
 

@@ -22,6 +22,26 @@ export const getPortfolios = async () => {
     }
 }
 
+export const getPortfolio = async (_id, req) => {
+    try {        
+        const token = setAuthHeader(req || null);
+        const client = apolloClient(token);
+
+        const { data } = await client.query({ 
+            query: portfolio, 
+            variables: { _id }
+        });
+
+        if(!data) {
+            throw new Error('Unable to get a portfolio.');
+        }
+        
+        return data;
+    } catch(e) {
+        throw new Error(e);
+    }
+}
+
 // Auth Required
 export const setAuthHeader = req => {
     let token;
@@ -46,25 +66,6 @@ export const getSecretData = async req => {
         });
 
         return response.data;
-    } catch(e) {
-        throw new Error(e);
-    }
-}
-
-export const getPortfolio = async (_id, req) => {
-    try {        
-        const token = setAuthHeader(req || null);
-        const client = apolloClient(token);
-
-        const { data } = await client.query({ 
-            query: portfolio, 
-            variables: { _id }
-        });
-
-        if(!data) {
-            throw new Error('Unable to get a portfolio.');
-        }
-        return data;
     } catch(e) {
         throw new Error(e);
     }
