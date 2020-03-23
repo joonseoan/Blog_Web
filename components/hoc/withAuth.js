@@ -39,14 +39,17 @@ export default role => {
                 if(role) {
                     if(userRole && userRole === role) {
                         isAuthorized = true;
+            
                     }
                 } else {
                     isAuthorized = false;
                 }
 
+                // this.props.auth.isAuthorized = isAuthorized;
+
                 if(!isAuthenticated) {
                     return (
-                        <BaseLayout { ...this.props.auth }>
+                        <BaseLayout { ...this.props.auth } isAuthorized={ isAuthorized }>
                             <BasePage>
                             <h1> You are not authenticated to access to the this page</h1>
                             </BasePage>
@@ -54,7 +57,7 @@ export default role => {
                     );
                 } else if(isAuthenticated && !isAuthorized) {
                     return (
-                        <BaseLayout { ...this.props.auth }>
+                        <BaseLayout { ...this.props.auth } isAuthorized= { isAuthorized }>
                             <BasePage>
                             <h1> Sorry, You are authenticated but not authorized</h1>
                             </BasePage>
@@ -62,7 +65,7 @@ export default role => {
                     );
                 } else {
                     // when fully authorized and authenticated
-                    return <ChildComponent { ...this.props } />;
+                    return <ChildComponent { ...this.props } isAuthorized= { isAuthorized }/>;
                 }
             }
 

@@ -6,7 +6,17 @@ const Queries = {
     
     portfolios: async (parent, args, { req }, info) => {        
         try {
-            const portfolios = await Portfolio.find({});
+            // 2)
+            // Adding sort by "startDate"
+            // { 'startDate': 1 } ascending
+            // { 'startDate': -1 } descending
+            const portfolios = await Portfolio
+                .find({})
+                .sort({ 'startDate': 1 });
+
+            //1)
+            // const portfolios = await Portfolio.find({});
+            
             if(!portfolios) {
                 throw new Error('Unable to get all user portfolios');
             }
