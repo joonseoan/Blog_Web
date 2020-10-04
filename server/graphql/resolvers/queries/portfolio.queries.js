@@ -36,7 +36,7 @@ const Queries = {
             }
 
             const portfolio = await Portfolio.findById(_id);
-            console.log('portfolio: ', portfolio)
+            // console.log('portfolio: ', portfolio)
             
             /* 
                 [ IMPORTANT ]

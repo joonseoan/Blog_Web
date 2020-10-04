@@ -65,13 +65,14 @@ class MyApp extends App {
       // default: when user is not avialble : false
       // then back to true when the user is avaialble
       // https://medium.com/better-programming/javascript-bang-bang-i-shot-you-down-use-of-double-bangs-in-javascript-7c9d94446054
+      console.log('user --> ', user)
       const auth = { user, isAuthenticated: !!user };
       // console.log('auth: ========>', auth)
       
       if (Component.getInitialProps) {
         pageProps = await Component.getInitialProps(ctx)
       }
-
+      console.log('pageProps : ', pageProps)
       return { pageProps, auth };  
   }
 
